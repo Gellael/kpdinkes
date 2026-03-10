@@ -1,59 +1,55 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🏥 Sistem Informasi Layanan Kesehatan (Portal BPJS & Ambulan)
+**Dinas Kesehatan Provinsi Bengkulu**
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem informasi berbasis web yang dirancang khusus untuk memfasilitasi program prioritas Gubernur dan Wakil Gubernur. Aplikasi ini mengintegrasikan layanan pendaftaran BPJS oleh petugas Puskesmas dan pelaporan log operasional armada Ambulan secara *real-time*, lengkap dengan panel pengawasan untuk Administrator.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ✨ Fitur Unggulan
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 🔐 Multi-Role Access Control
+Sistem ini memiliki 3 hak akses pengguna dengan *dashboard* dan fungsi yang terisolasi:
+1. **Administrator:** Memantau seluruh pendaftaran BPJS, melihat log perjalanan ambulan, *export* laporan ke Excel, dan mengelola akun pengguna (CRUD).
+2. **Petugas Puskesmas:** Menginput data warga untuk pendaftaran BPJS dan mengunggah dokumen persyaratan (KTP & KK).
+3. **Driver Ambulan:** Melaporkan log perjalanan armada, titik jemput/tujuan, pasien yang dibawa, dan bukti operasional.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🛡️ Keamanan File Tingkat Tinggi (Anti-IDOR)
+Dokumen sensitif milik warga (KTP & KK) tidak disimpan di folder *public* biasa. Sistem menggunakan sistem *Private Storage* dengan *Controller* khusus untuk menampilkan gambar, sehingga data tidak bisa diakses sembarangan melalui *URL guessing* (mencegah kebocoran data pribadi).
 
-## Learning Laravel
+### 📱 UI/UX Modern & Responsive (SaaS Style)
+- Desain antarmuka menggunakan gaya *Software as a Service* (SaaS) yang bersih dan profesional.
+- **Mobile First:** Tabel data otomatis berubah menjadi bentuk "Kartu (Cards)" saat dibuka melalui *smartphone*.
+- **Pencarian Real-Time:** Filter data instan menggunakan JavaScript murni tanpa perlu me-*refresh* halaman.
+- **SweetAlert2:** Konfirmasi hapus data yang elegan dan aman.
+- **Pop-up Preview:** Fitur melihat dokumen KTP/KK tanpa perlu berpindah halaman (menggunakan Modal Bootstrap).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 📊 Pelaporan & Export
+Fitur *export* data ke dalam format Excel (.csv) untuk kebutuhan pelaporan rekapitulasi harian/bulanan Dinas Kesehatan.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🛠️ Teknologi yang Digunakan
+- **Framework:** Laravel (PHP)
+- **Database:** MySQL / MariaDB
+- **Frontend:** HTML5, CSS3, Bootstrap 5, JavaScript Vanilla
+- **Font:** [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans)
+- **Icons:** FontAwesome 6
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 🚀 Panduan Instalasi (Local Development)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Ikuti langkah-langkah berikut untuk menjalankan proyek ini di komputer atau laptop Anda:
 
-## Contributing
+### 1. Persiapan Kebutuhan Sistem
+Pastikan komputer Anda sudah terinstal:
+- [PHP](https://www.php.net/downloads) (Minimal versi 8.1)
+- [Composer](https://getcomposer.org/download/)
+- [MySQL/XAMPP](https://www.apachefriends.org/download.html)
+- [Git](https://git-scm.com/downloads)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 2. Kloning Repositori
+Buka Terminal/Command Prompt, dan jalankan perintah berikut:
+```bash
+git clone [https://github.com/Gellael/kpdinkes.git](https://github.com/Gellael/kpdinkes.git)
+cd kpdinkes
