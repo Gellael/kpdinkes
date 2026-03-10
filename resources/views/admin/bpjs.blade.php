@@ -5,45 +5,53 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
-{{-- TAMBAHAN 2: CUSTOM CSS UNTUK MEMBUAT SWEETALERT MENJADI ROUNDED & CANTIK --}}
+{{-- TAMBAHAN 2: CUSTOM CSS UNTUK TAMPILAN MODERN --}}
 <style>
     /* Mengubah font default SweetAlert menjadi Poppins */
     .swal2-popup {
         font-family: 'Poppins', sans-serif !important;
-        border-radius: 25px !important; /* Membuat sudut pop-up sangat melengkung */
+        border-radius: 25px !important;
         padding: 2rem !important;
     }
-    /* Membuat judul lebih besar dan tegas */
-    .swal2-title {
-        font-weight: 700 !important;
-        font-size: 1.6rem !important;
-    }
-    /* Membuat teks isi lebih enak dibaca */
-    .swal2-html-container {
-        font-size: 1.1rem !important;
-        color: #555 !important;
-    }
-    /* Membuat tombol menjadi rounded (pil) dan tebal */
+    .swal2-title { font-weight: 700 !important; font-size: 1.6rem !important; }
+    .swal2-html-container { font-size: 1.1rem !important; color: #555 !important; }
     .swal2-confirm, .swal2-cancel {
-        border-radius: 50px !important; /* Bentuk pil */
-        font-weight: 600 !important;
-        font-size: 1rem !important;
-        padding: 12px 30px !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important; /* Bayangan halus */
-        transition: all 0.3s ease;
+        border-radius: 50px !important; font-weight: 600 !important; font-size: 1rem !important;
+        padding: 12px 30px !important; box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important; transition: all 0.3s ease;
     }
     .swal2-confirm:hover, .swal2-cancel:hover {
-        transform: translateY(-2px); /* Efek naik sedikit saat di-hover */
-        box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+        transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
     }
-    /* Mengubah ikon agar tidak terlalu kaku */
     .swal2-icon {
-        border: none !important; /* Menghilangkan border lingkaran default */
-        background-color: rgba(var(--bs-primary-rgb), 0.1); /* Background transparan halus */
-        width: 5em !important;
-        height: 5em !important;
-        margin-bottom: 1.5rem !important;
+        border: none !important; background-color: rgba(var(--bs-primary-rgb), 0.1);
+        width: 5em !important; height: 5em !important; margin-bottom: 1.5rem !important;
     }
+
+    /* =========================================================
+       DESAIN TOMBOL DOKUMEN (Diselaraskan dengan Puskesmas)
+       ========================================================= */
+    .doc-badge {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 6px 14px; border-radius: 50px;
+        font-size: 0.75rem; font-weight: 700; text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid transparent; cursor: pointer;
+    }
+    .doc-ktp { background-color: #eff6ff; color: #2563eb; border-color: #bfdbfe; }
+    .doc-ktp:hover { background-color: #2563eb; color: #ffffff; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); transform: translateY(-3px); }
+    
+    .doc-kk { background-color: #f5f3ff; color: #4f46e5; border-color: #ddd6fe; }
+    .doc-kk:hover { background-color: #4f46e5; color: #ffffff; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25); transform: translateY(-3px); }
+
+    .doc-sktm { background-color: #f0fdf4; color: #0f766e; border-color: #bbf7d0; }
+    .doc-sktm:hover { background-color: #0f766e; color: #ffffff; box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25); transform: translateY(-3px); }
+    
+    .doc-rawat { background-color: #fffbeb; color: #b45309; border-color: #fde68a; }
+    .doc-rawat:hover { background-color: #b45309; color: #ffffff; box-shadow: 0 4px 12px rgba(180, 83, 9, 0.25); transform: translateY(-3px); }
+
+    .ls-1 { letter-spacing: 1px; }
+    .hover-scale { transition: transform 0.2s; }
+    .hover-scale:hover { transform: scale(1.08); }
 </style>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -112,7 +120,7 @@
                     <th class="ps-4 py-3">Data Warga</th>
                     <th class="py-3">Puskesmas Pengirim</th>
                     <th class="py-3">Wilayah</th>
-                    <th class="py-3">Dokumen</th>
+                    <th class="py-3" style="width: 25%;">Dokumen</th>
                     <th class="py-3">Status</th>
                     <th class="text-center py-3">Aksi</th>
                 </tr>
@@ -143,20 +151,38 @@
                         </span>
                         <div class="small text-muted ms-2">{{ $d->petugas->kecamatan ?? '-' }}</div>
                     </td>
+                    
                     <td>
-                        <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-sm btn-white border shadow-sm rounded-pill px-3 fw-bold text-primary btn-preview hover-scale" 
+                        <div class="d-flex flex-wrap gap-2">
+                            <button type="button" class="doc-badge doc-ktp btn-preview" 
                                     data-url="{{ route('file.rahasia', ['path' => $d->foto_ktp]) }}" 
                                     data-title="KTP - {{ $d->nama_warga }}">
-                                <i class="fa-regular fa-image me-1"></i> KTP
+                                <i class="fa-solid fa-address-card"></i> KTP
                             </button>
-                            <button type="button" class="btn btn-sm btn-white border shadow-sm rounded-pill px-3 fw-bold text-primary btn-preview hover-scale" 
+                            <button type="button" class="doc-badge doc-kk btn-preview" 
                                     data-url="{{ route('file.rahasia', ['path' => $d->foto_kk]) }}" 
                                     data-title="KK - {{ $d->nama_warga }}">
-                                <i class="fa-regular fa-image me-1"></i> KK
+                                <i class="fa-solid fa-users-rectangle"></i> KK
                             </button>
+                            
+                            @if(!empty($d->foto_sktm))
+                            <button type="button" class="doc-badge doc-sktm btn-preview" 
+                                    data-url="{{ route('file.rahasia', ['path' => $d->foto_sktm]) }}" 
+                                    data-title="SKTM - {{ $d->nama_warga }}">
+                                <i class="fa-solid fa-file-signature"></i> SKTM
+                            </button>
+                            @endif
+
+                            @if(!empty($d->foto_rawat))
+                            <button type="button" class="doc-badge doc-rawat btn-preview" 
+                                    data-url="{{ route('file.rahasia', ['path' => $d->foto_rawat]) }}" 
+                                    data-title="Foto Rawat - {{ $d->nama_warga }}">
+                                <i class="fa-solid fa-bed-pulse"></i> Rawat
+                            </button>
+                            @endif
                         </div>
                     </td>
+
                     <td>
                         @if($d->status_verifikasi == 'acc')
                             <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle rounded-pill px-3 py-2 fw-bold">
@@ -218,12 +244,6 @@
     </div>
 </div>
 
-<style>
-    .ls-1 { letter-spacing: 1px; }
-    .hover-scale { transition: transform 0.2s; }
-    .hover-scale:hover { transform: scale(1.08); }
-</style>
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
@@ -232,6 +252,7 @@
         const filterKab = document.getElementById('filterKabupaten');
         const filterPus = document.getElementById('filterPuskesmas');
         const puskesmasOptions = Array.from(filterPus.options);
+        
         function updatePuskesmasDropdown() {
             const selectedKab = filterKab.value;
             filterPus.innerHTML = '';
@@ -241,6 +262,7 @@
             });
             filteredOptions.forEach(opt => filterPus.add(opt));
         }
+        
         filterKab.addEventListener('change', updatePuskesmasDropdown);
         if(filterKab.value !== "") { updatePuskesmasDropdown(); }
 
@@ -250,16 +272,16 @@
         const previewImage = document.getElementById('previewImage');
         const modalTitle = document.getElementById('modalTitle');
         const myModal = new bootstrap.Modal(modalElement);
+        
         previewButtons.forEach(button => {
             button.addEventListener('click', function() {
-                // Gambar kini memuat URL yang aman, bukan folder public!
                 previewImage.src = this.getAttribute('data-url');
                 modalTitle.innerText = this.getAttribute('data-title');
                 myModal.show();
             });
         });
 
-        // --- 3. LOGIKA POP-UP SWEETALERT2 ---
+        // --- 3. LOGIKA POP-UP SWEETALERT2 (TERMASUK INPUT ALASAN TOLAK) ---
         const formsKonfirmasi = document.querySelectorAll('.form-konfirmasi');
         formsKonfirmasi.forEach(form => {
             form.addEventListener('submit', function(e) {
@@ -267,45 +289,71 @@
                 
                 const aksi = this.getAttribute('data-aksi');
                 const nama = this.getAttribute('data-nama');
-                const iconType = this.getAttribute('data-icon'); // success atau error
+                const iconType = this.getAttribute('data-icon'); // success (setuju) atau error (tolak)
                 
-                const warnaTombol = iconType === 'success' ? '#198754' : '#dc3545';
-                const judul = iconType === 'success' ? 'Setujui Data?' : 'Tolak Data?';
-
-                Swal.fire({
-                    title: judul,
-                    html: `Apakah Anda yakin ingin <b>${aksi.toLowerCase()}</b> pengajuan atas nama <br><span class="text-primary fw-bold" style="font-size: 1.2rem;">${nama}</span>?`,
-                    icon: iconType,
-                    showCancelButton: true,
-                    confirmButtonColor: warnaTombol,
-                    cancelButtonColor: '#e9ecef',
-                    confirmButtonText: 'Ya, Lanjutkan!',
-                    cancelButtonText: '<span class="text-dark fw-bold">Batal</span>',
-                    reverseButtons: true,
-                    showClass: { popup: 'animate__animated animate__fadeInUp animate__faster' },
-                    hideClass: { popup: 'animate__animated animate__fadeOutDown animate__faster' },
-                    customClass: {
-                        icon: 'border-0 shadow-sm bg-light bg-opacity-50 mb-4',
-                        cancelButton: 'border-0 shadow-sm text-dark'
-                    },
-                    buttonsStyling: false, 
-                    didOpen: () => {
-                        Swal.getConfirmButton().classList.add('btn', iconType === 'success' ? 'btn-success' : 'btn-danger', 'rounded-pill', 'px-4', 'py-2', 'fw-bold', 'shadow', 'ms-2');
-                        Swal.getCancelButton().classList.add('btn', 'btn-light', 'text-dark', 'rounded-pill', 'px-4', 'py-2', 'fw-bold', 'border', 'shadow-sm');
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire({
-                            title: 'Memproses...',
-                            html: 'Mohon tunggu sebentar.',
-                            timer: 1000,
-                            timerProgressBar: true,
-                            didOpen: () => { Swal.showLoading() }
-                        }).then(() => {
-                             this.submit();
-                        });
-                    }
-                });
+                // JIKA AKSI ADALAH MENOLAK (Munculkan Textarea)
+                if (iconType === 'error') {
+                    Swal.fire({
+                        title: 'Tolak Data?',
+                        html: `Masukkan alasan penolakan untuk <br><span class="text-primary fw-bold">${nama}</span>:`,
+                        input: 'textarea',
+                        inputPlaceholder: 'Contoh: Foto KTP blur, NIK tidak sesuai...',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc3545',
+                        cancelButtonColor: '#e9ecef',
+                        confirmButtonText: '<i class="fa-solid fa-paper-plane me-1"></i> Tolak & Kirim Alasan',
+                        cancelButtonText: '<span class="text-dark fw-bold">Batal</span>',
+                        reverseButtons: true,
+                        customClass: { cancelButton: 'border-0 shadow-sm text-dark' },
+                        inputValidator: (value) => {
+                            if (!value) { return 'Alasan penolakan wajib diisi!' }
+                        },
+                        didOpen: () => {
+                            Swal.getConfirmButton().classList.add('btn', 'btn-danger', 'rounded-pill', 'px-4', 'py-2', 'fw-bold', 'shadow', 'ms-2');
+                            Swal.getCancelButton().classList.add('btn', 'btn-light', 'text-dark', 'rounded-pill', 'px-4', 'py-2', 'fw-bold', 'border', 'shadow-sm');
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Masukkan teks alasan ke dalam form tersembunyi lalu kirim
+                            const inputAlasan = document.createElement('input');
+                            inputAlasan.type = 'hidden';
+                            inputAlasan.name = 'alasan_ditolak';
+                            inputAlasan.value = result.value;
+                            this.appendChild(inputAlasan);
+                            
+                            Swal.fire({ title: 'Memproses...', didOpen: () => { Swal.showLoading() } });
+                            this.submit();
+                        }
+                    });
+                } 
+                // JIKA AKSI ADALAH MENYETUJUI (Normal)
+                else {
+                    Swal.fire({
+                        title: 'Setujui Data?',
+                        html: `Apakah Anda yakin ingin menyetujui pengajuan <br><span class="text-success fw-bold">${nama}</span>?`,
+                        icon: 'success',
+                        showCancelButton: true,
+                        confirmButtonColor: '#198754',
+                        cancelButtonColor: '#e9ecef',
+                        confirmButtonText: 'Ya, Setujui!',
+                        cancelButtonText: '<span class="text-dark fw-bold">Batal</span>',
+                        reverseButtons: true,
+                        customClass: {
+                            icon: 'border-0 shadow-sm bg-light bg-opacity-50 mb-4',
+                            cancelButton: 'border-0 shadow-sm text-dark'
+                        },
+                        didOpen: () => {
+                            Swal.getConfirmButton().classList.add('btn', 'btn-success', 'rounded-pill', 'px-4', 'py-2', 'fw-bold', 'shadow', 'ms-2');
+                            Swal.getCancelButton().classList.add('btn', 'btn-light', 'text-dark', 'rounded-pill', 'px-4', 'py-2', 'fw-bold', 'border', 'shadow-sm');
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({ title: 'Memproses...', didOpen: () => { Swal.showLoading() } });
+                            this.submit();
+                        }
+                    });
+                }
             });
         });
     });

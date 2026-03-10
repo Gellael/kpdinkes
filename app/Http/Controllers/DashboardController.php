@@ -121,13 +121,26 @@ class DashboardController extends Controller
     }
 
     public function approveBpjs($id) {
-        BpjsData::findOrFail($id)->update(['status_verifikasi' => 'acc']);
+        BpjsData::findOrFail($id)->update([
+            'status_verifikasi' => 'acc',
+            'alasan_ditolak' => null // Bersihkan alasan jika sebelumnya pernah ditolak lalu disetujui ulang
+        ]);
         return back()->with('success', 'Data Warga BERHASIL Disetujui (ACC)!');
     }
 
-    public function rejectBpjs($id) {
-        BpjsData::findOrFail($id)->update(['status_verifikasi' => 'ditolak']);
-        return back()->with('success', 'Data Warga DITOLAK.');
+    // PERUBAHAN: Menambahkan Request untuk menangkap alasan penolakan
+    public function rejectBpjs(Request $request, $id) {
+        // Validasi agar alasan wajib diisi saat menolak
+        $request->validate([
+            'alasan_ditolak' => 'required|string|max:500'
+        ]);
+
+        BpjsData::findOrFail($id)->update([
+            'status_verifikasi' => 'ditolak',
+            'alasan_ditolak' => $request->alasan_ditolak
+        ]);
+        
+        return back()->with('success', 'Data Warga DITOLAK beserta alasannya.');
     }
 
     // ==========================================
@@ -303,11 +316,18 @@ class DashboardController extends Controller
             'alamat' => 'required',
             'foto_ktp' => 'required|image|max:2048',
             'foto_kk' => 'required|image|max:2048',
+            'foto_sktm' => 'required|image|max:2048',
+            'foto_rawat' => 'nullable|image|max:2048', 
         ]);
         
-        // PERBAIKAN KEAMANAN: Simpan ke folder Private, BUKAN Public
         $pathKtp = $request->file('foto_ktp')->store('private/berkas_bpjs/ktp');
         $pathKk = $request->file('foto_kk')->store('private/berkas_bpjs/kk');
+        $pathSktm = $request->file('foto_sktm')->store('private/berkas_bpjs/sktm');
+        
+        $pathRawat = null;
+        if ($request->hasFile('foto_rawat')) {
+            $pathRawat = $request->file('foto_rawat')->store('private/berkas_bpjs/rawat');
+        }
 
         BpjsData::create([
             'user_id' => Auth::id(),
@@ -317,6 +337,8 @@ class DashboardController extends Controller
             'alamat' => $request->alamat,
             'foto_ktp' => $pathKtp,
             'foto_kk' => $pathKk,
+            'foto_sktm' => $pathSktm,
+            'foto_rawat' => $pathRawat,
             'status_verifikasi' => 'pending'
         ]);
         
@@ -328,11 +350,11 @@ class DashboardController extends Controller
     // ==========================================
 
     public function ambulanIndex() {
-    $activeTrip = AmbulanceLog::where('driver_id', Auth::id())->where('status', 'jalan')->first();
-    $riwayat = AmbulanceLog::where('driver_id', Auth::id())->where('status', 'selesai')->latest()->get();
-    
-    return view('dashboard_ambulan', compact('activeTrip', 'riwayat'));
-}
+        $activeTrip = AmbulanceLog::where('driver_id', Auth::id())->where('status', 'jalan')->first();
+        $riwayat = AmbulanceLog::where('driver_id', Auth::id())->where('status', 'selesai')->latest()->get();
+        
+        return view('dashboard_ambulan', compact('activeTrip', 'riwayat'));
+    }
 
     public function startAmbulan() {
         $cek = AmbulanceLog::where('driver_id', Auth::id())->where('status', 'jalan')->first();
@@ -358,7 +380,6 @@ class DashboardController extends Controller
             'foto_ktp' => 'required|image|max:3048', 
         ]);
 
-        // PERBAIKAN KEAMANAN: Simpan ke folder Private
         $path = $request->file('foto_ktp')->store('private/ktp_pasien');
         
         $log->update([
@@ -373,6 +394,7 @@ class DashboardController extends Controller
         return back()->with('success', 'Tugas Selesai. Data berhasil disimpan!');
     }
 
+    
     public function ambulanProfil() {
         $user = Auth::user();
         return view('ambulan_profil', compact('user'));
@@ -401,39 +423,33 @@ class DashboardController extends Controller
     
     public function tampilkanBerkasRahasia(Request $request)
     {
-        // 1. Ambil path dari URL
         $path = $request->query('path');
 
         if (!$path) {
             abort(404, 'Path dokumen tidak diberikan.');
         }
 
-        // 2. Bersihkan path dari awalan folder lama agar kita mendapat nama file murninya
         $cleanPath = str_replace(['public/', 'private/', 'storage/'], '', $path);
-        $cleanPath = ltrim($cleanPath, '/'); // Hapus garis miring di awal jika ada
+        $cleanPath = ltrim($cleanPath, '/'); 
 
-        // 3. Daftar "Pencarian Cerdas" ke berbagai lokasi folder di server
         $possibleLocations = [
-            'private/' . $cleanPath,  // Prioritas 1: Cari di folder Private (Sistem Baru)
-            'public/' . $cleanPath,   // Prioritas 2: Cari di folder Public (Sistem Lama)
-            $cleanPath                // Prioritas 3: Cari langsung di root storage (Fallback)
+            'private/' . $cleanPath,  
+            'public/' . $cleanPath,   
+            $cleanPath                
         ];
 
-        // 4. Lakukan pencarian fisik ke dalam server
         $foundPath = null;
         foreach ($possibleLocations as $loc) {
             if (\Illuminate\Support\Facades\Storage::exists($loc)) {
                 $foundPath = $loc;
-                break; // Jika ketemu, hentikan pencarian
+                break; 
             }
         }
 
-        // 5. Jika file benar-benar sudah hilang secara fisik dari laptop/server Anda
         if (!$foundPath) {
             abort(404, 'File gambar fisik sudah tidak ada di server. File yang dicari: ' . $cleanPath);
         }
 
-        // 6. Jika ketemu, kirimkan file tersebut ke browser dengan aman
         return response()->file(\Illuminate\Support\Facades\Storage::path($foundPath));
     }
 }

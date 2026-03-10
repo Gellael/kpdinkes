@@ -7,16 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 class BpjsData extends Model
 {
     protected $table = 'bpjs_data';
+    
     protected $fillable = [
-    'nama_warga',
-    'nik',
-    'alamat',
-    'no_hp',     
-    'foto_ktp',  
-    'foto_kk',   
-    'status_verifikasi',
-    'user_id'
-];
+        'nama_warga',
+        'nik',
+        'alamat',
+        'no_hp',     
+        'foto_ktp',  
+        'foto_kk',
+        'foto_sktm',
+        'foto_rawat',   
+        'status_verifikasi',
+        'alasan_ditolak', // <--- TAMBAHAN UNTUK MENYIMPAN ALASAN PENOLAKAN
+        'user_id'
+    ];
 
     public function petugas()
     {
