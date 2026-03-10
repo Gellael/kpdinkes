@@ -155,19 +155,20 @@
                     <td>
                         <div class="d-flex flex-wrap gap-2">
                             <button type="button" class="doc-badge doc-ktp btn-preview" 
-                                    data-url="{{ route('file.rahasia', ['path' => $d->foto_ktp]) }}" 
+                                    data-url="{{ $d->foto_ktp }}" 
                                     data-title="KTP - {{ $d->nama_warga }}">
                                 <i class="fa-solid fa-address-card"></i> KTP
                             </button>
+                            
                             <button type="button" class="doc-badge doc-kk btn-preview" 
-                                    data-url="{{ route('file.rahasia', ['path' => $d->foto_kk]) }}" 
+                                    data-url="{{ $d->foto_kk }}" 
                                     data-title="KK - {{ $d->nama_warga }}">
                                 <i class="fa-solid fa-users-rectangle"></i> KK
                             </button>
                             
                             @if(!empty($d->foto_sktm))
                             <button type="button" class="doc-badge doc-sktm btn-preview" 
-                                    data-url="{{ route('file.rahasia', ['path' => $d->foto_sktm]) }}" 
+                                    data-url="{{ $d->foto_sktm }}" 
                                     data-title="SKTM - {{ $d->nama_warga }}">
                                 <i class="fa-solid fa-file-signature"></i> SKTM
                             </button>
@@ -175,7 +176,7 @@
 
                             @if(!empty($d->foto_rawat))
                             <button type="button" class="doc-badge doc-rawat btn-preview" 
-                                    data-url="{{ route('file.rahasia', ['path' => $d->foto_rawat]) }}" 
+                                    data-url="{{ $d->foto_rawat }}" 
                                     data-title="Foto Rawat - {{ $d->nama_warga }}">
                                 <i class="fa-solid fa-bed-pulse"></i> Rawat
                             </button>
@@ -280,6 +281,7 @@
         
         previewButtons.forEach(button => {
             button.addEventListener('click', function() {
+                // Di sini URL Cloudinary akan langsung dipanggil dan masuk ke atribut 'src' gambar
                 previewImage.src = this.getAttribute('data-url');
                 modalTitle.innerText = this.getAttribute('data-title');
                 myModal.show();
