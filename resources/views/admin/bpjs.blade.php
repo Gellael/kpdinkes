@@ -121,7 +121,7 @@
                     <th class="py-3">Puskesmas Pengirim</th>
                     <th class="py-3">Wilayah</th>
                     <th class="py-3" style="width: 25%;">Dokumen</th>
-                    <th class="py-3">Status</th>
+                    <th class="py-3" style="width: 20%;">Status</th>
                     <th class="text-center py-3">Aksi</th>
                 </tr>
             </thead>
@@ -189,9 +189,14 @@
                                 <i class="fa-solid fa-circle-check me-1"></i> Disetujui
                             </span>
                         @elseif($d->status_verifikasi == 'ditolak')
-                            <span class="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle rounded-pill px-3 py-2 fw-bold">
-                                <i class="fa-solid fa-circle-xmark me-1"></i> Ditolak
-                            </span>
+                            <div>
+                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle rounded-pill px-3 py-2 fw-bold mb-2">
+                                    <i class="fa-solid fa-circle-xmark me-1"></i> Ditolak
+                                </span>
+                                <div class="small p-2 bg-danger bg-opacity-10 text-danger rounded-3 border border-danger border-opacity-25 mt-1" style="max-width: 250px; font-size: 0.75rem; line-height: 1.4;">
+                                    <strong>Alasan:</strong> {{ $d->alasan_ditolak ?? 'Tidak ada alasan.' }}
+                                </div>
+                            </div>
                         @else
                             <span class="badge bg-warning bg-opacity-25 text-warning-emphasis border border-warning-subtle rounded-pill px-3 py-2 fw-bold">
                                 <i class="fa-regular fa-clock me-1"></i> Menunggu
@@ -281,7 +286,7 @@
             });
         });
 
-        // --- 3. LOGIKA POP-UP SWEETALERT2 (TERMASUK INPUT ALASAN TOLAK) ---
+        // --- 3. LOGIKA POP-UP SWEETALERT2 ---
         const formsKonfirmasi = document.querySelectorAll('.form-konfirmasi');
         formsKonfirmasi.forEach(form => {
             form.addEventListener('submit', function(e) {
@@ -294,18 +299,21 @@
                 // JIKA AKSI ADALAH MENOLAK (Munculkan Textarea)
                 if (iconType === 'error') {
                     Swal.fire({
-                        title: 'Tolak Data?',
-                        html: `Masukkan alasan penolakan untuk <br><span class="text-primary fw-bold">${nama}</span>:`,
+                        title: 'Tolak Pengajuan?',
+                        html: `Silakan ketik alasan penolakan untuk <br><span class="text-danger fw-bold" style="font-size: 1.2rem;">${nama}</span>:`,
                         input: 'textarea',
-                        inputPlaceholder: 'Contoh: Foto KTP blur, NIK tidak sesuai...',
+                        inputPlaceholder: 'Ketik alasan di sini (Contoh: Foto KTP buram, NIK tidak sesuai...)',
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#dc3545',
                         cancelButtonColor: '#e9ecef',
-                        confirmButtonText: '<i class="fa-solid fa-paper-plane me-1"></i> Tolak & Kirim Alasan',
+                        confirmButtonText: '<i class="fa-solid fa-paper-plane me-1"></i> Tolak & Kirim',
                         cancelButtonText: '<span class="text-dark fw-bold">Batal</span>',
                         reverseButtons: true,
-                        customClass: { cancelButton: 'border-0 shadow-sm text-dark' },
+                        customClass: {
+                            icon: 'border-0 shadow-sm bg-light bg-opacity-50 mb-4',
+                            cancelButton: 'border-0 shadow-sm text-dark'
+                        },
                         inputValidator: (value) => {
                             if (!value) { return 'Alasan penolakan wajib diisi!' }
                         },
@@ -315,14 +323,13 @@
                         }
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            // Masukkan teks alasan ke dalam form tersembunyi lalu kirim
                             const inputAlasan = document.createElement('input');
                             inputAlasan.type = 'hidden';
                             inputAlasan.name = 'alasan_ditolak';
                             inputAlasan.value = result.value;
                             this.appendChild(inputAlasan);
                             
-                            Swal.fire({ title: 'Memproses...', didOpen: () => { Swal.showLoading() } });
+                            Swal.fire({ title: 'Memproses...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
                             this.submit();
                         }
                     });
@@ -331,7 +338,7 @@
                 else {
                     Swal.fire({
                         title: 'Setujui Data?',
-                        html: `Apakah Anda yakin ingin menyetujui pengajuan <br><span class="text-success fw-bold">${nama}</span>?`,
+                        html: `Apakah Anda yakin ingin menyetujui pengajuan atas nama <br><span class="text-success fw-bold" style="font-size: 1.2rem;">${nama}</span>?`,
                         icon: 'success',
                         showCancelButton: true,
                         confirmButtonColor: '#198754',
@@ -349,7 +356,7 @@
                         }
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            Swal.fire({ title: 'Memproses...', didOpen: () => { Swal.showLoading() } });
+                            Swal.fire({ title: 'Memproses...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
                             this.submit();
                         }
                     });
