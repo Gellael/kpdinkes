@@ -181,7 +181,7 @@
                         <td class="text-center">
                             @if($log->foto_ktp)
                                 <button type="button" class="btn btn-sm btn-light text-primary btn-preview-bukti rounded-pill px-3" 
-                                        data-url="{{ route('file.rahasia', ['path' => $log->foto_ktp]) }}" 
+                                        data-url="{{ $log->foto_ktp }}" 
                                         data-title="Bukti Pasien: {{ $log->nama_pasien }}">
                                     <i class="fa-regular fa-image me-1"></i> Lihat
                                 </button>
@@ -200,14 +200,14 @@
 </div>
 
 <div class="modal fade" id="buktiPreviewModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow-lg rounded-4">
             <div class="modal-header border-0 pb-0">
                 <h6 class="modal-title fw-bold text-dark" id="buktiTitle">Bukti Perjalanan</h6>
                 <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body text-center p-4">
-                <img src="" id="buktiImage" class="img-fluid rounded-3 border shadow-sm" alt="Bukti">
+                <img src="" id="buktiImage" class="img-fluid rounded-3 border shadow-sm" alt="Bukti" style="max-height: 70vh; object-fit: contain;">
             </div>
             <div class="modal-footer border-0 pt-0">
                 <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Tutup</button>
@@ -246,10 +246,19 @@
 
         previewButtons.forEach(btn => {
             btn.addEventListener('click', function() {
-                // Skrip JS ini sekarang menerima URL yang dilindungi
                 const url = this.getAttribute('data-url');
                 const title = this.getAttribute('data-title');
-                previewImage.src = url;
+                
+                // FIX: Animasi Loading Sederhana
+                previewImage.src = 'https://i.gifer.com/ZKZg.gif'; 
+                
+                // Memuat gambar sebenarnya di latar belakang
+                const img = new Image();
+                img.onload = function() {
+                    previewImage.src = this.src; // Ganti animasi dengan gambar asli jika sudah siap
+                };
+                img.src = url;
+
                 modalTitle.innerText = title;
                 myModal.show();
             });
