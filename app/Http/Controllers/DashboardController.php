@@ -165,13 +165,15 @@ class DashboardController extends Controller
         $listKabupaten = User::where('role', 'ambulan')->select('kabupaten')->distinct()->orderBy('kabupaten')->get();
         $logQuery = AmbulanceLog::with('driver');
 
+        // FIX 1: Deklarasi variabel $armadaPerWilayah di awal agar tidak error 'undefined variable'
+        $armadaPerWilayah = []; 
+
         if (!$isFiltering) {
             foreach($listKabupaten as $kab) {
                 $kab->display_name = $kab->kabupaten ?? 'Lain-lain';
                 $kab->jumlah_unit = User::where('role', 'ambulan')->where('kabupaten', $kab->kabupaten)->count();
             }
             $logs = $logQuery->latest()->take(50)->get();
-            $armadaPerWilayah = [];
         } else {
             $logQuery->whereHas('driver', function($q) use ($selectedKabupaten) {
                 if ($selectedKabupaten == 'Lain-lain') { $q->whereNull('kabupaten'); } 
@@ -247,7 +249,6 @@ class DashboardController extends Controller
             'foto_rawat' => 'nullable|image|max:2048', 
         ]);
         
-        // UPLOAD MANUAL ANTI-ERROR
         $pathKtp = $this->uploadKeCloudinary($request->file('foto_ktp'), 'berkas_bpjs/ktp');
         $pathKk = $this->uploadKeCloudinary($request->file('foto_kk'), 'berkas_bpjs/kk');
         
@@ -305,7 +306,6 @@ class DashboardController extends Controller
             'foto_ktp' => 'required|image|max:3048', 
         ]);
 
-        // UPLOAD MANUAL ANTI-ERROR KHUSUS DRIVER
         $path = $this->uploadKeCloudinary($request->file('foto_ktp'), 'ktp_pasien');
         
         $log->update([
@@ -317,7 +317,8 @@ class DashboardController extends Controller
             'status' => 'selesai'
         ]);
 
-        return redirect()->route('ambulan.index')->with('success', 'Tugas Selesai. Data tersimpan aman!');
+        // FIX 2: Kembalikan menggunakan back() agar tidak mencari rute 'ambulan.index' yang tidak ada
+        return back()->with('success', 'Tugas Selesai. Data tersimpan aman!');
     }
 
     public function ambulanProfil() {
