@@ -10,6 +10,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
+        /* ==========================================================
+           MODIFIKASI SKALA GLOBAL (90%) 
+           ========================================================== */
+        html {
+            /* Menurunkan skala seluruh halaman ke 90% */
+            zoom: 0.9 !important; 
+            -moz-transform: scale(0.9);
+            -moz-transform-origin: top center;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background: #f0f4f8; 
@@ -59,17 +69,17 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- SISI KIRI (BIRU): TOTAL REVAMP UNTUK FOTO MENCOLOK --- */
+        /* --- SISI KIRI (BIRU) --- */
         .brand-side {
-            width: 50%; /* Diperlebar sedikit */
+            width: 50%;
             background: linear-gradient(150deg, #1e3a8a 0%, #1d4ed8 100%);
-            padding: 3rem; /* Sedikit dikurangi padding agar foto lebih luas */
+            padding: 3rem;
             color: white;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Center semua konten */
+            align-items: center;
             position: relative;
-            border-right: 8px solid #f59e0b; /* Aksen Emas di pemisah */
+            border-right: 8px solid #f59e0b;
         }
 
         .brand-content { position: relative; z-index: 2; width: 100%; text-align: center; }
@@ -87,28 +97,20 @@
         .brand-side h2 { font-size: 1.7rem; line-height: 1.2; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 1rem; }
         .brand-desc { font-size: 0.9rem; opacity: 0.8; margin-bottom: 2rem; font-weight: 300; max-width: 400px; margin-left: auto; margin-right: auto; }
 
-        /* ==========================================================
-           MODIFIKASI FOTO MENCOLOK ALA PEMERINTAHAN (POPPING OUT)
-           ========================================================== */
         .leader-photo-container {
             position: relative;
             width: 100%;
-            max-width: 420px; /* Ukuran wadah diperbesar */
+            max-width: 420px;
             margin-bottom: 2.5rem;
-            /* Efek Pop-Out: Background putih solid dengan border tebal emas & putih */
             background: #ffffff;
             padding: 15px;
             border-radius: 24px;
-            /* Bayangan sangat dalam agar foto benar-benar menonjol keluar */
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4), 0 0 0 8px rgba(255,255,255,0.1); 
-            border: 4px solid #f59e0b; /* Border Emas Utama */
+            border: 4px solid #f59e0b;
             transition: transform 0.3s ease;
         }
-        .leader-photo-container:hover {
-            transform: translateY(-5px) scale(1.02); /* Efek interaktif saat dihover */
-        }
+        .leader-photo-container:hover { transform: translateY(-5px) scale(1.02); }
 
-        /* Bingkai dalam untuk foto agar terlihat seperti potret resmi */
         .leader-photo-frame {
             border: 2px solid #e2e8f0; 
             border-radius: 14px;
@@ -119,16 +121,14 @@
         .leader-photo-container img {
             max-width: 100%;
             height: auto;
-            /* Ukuran foto diperbesar signifikan */
             max-height: 260px; 
             object-fit: contain;
             display: block;
             margin: 0 auto;
         }
 
-        /* Caption tegas di bawah foto di dalam kotak putih */
         .leader-caption-box {
-            background: #1e3a8a; /* Warna biru tua dinas */
+            background: #1e3a8a;
             color: #ffffff;
             padding: 10px;
             border-radius: 10px;
@@ -139,12 +139,8 @@
             letter-spacing: 1px;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
         }
-        /* ========================================================== */
 
-        /* Status Cards (Dibuat subtil agar foto tetap dominan) */
-        .status-wrapper {
-            display: flex; gap: 15px; width: 100%; max-width: 400px;
-        }
+        .status-wrapper { display: flex; gap: 15px; width: 100%; max-width: 400px; }
         .status-card {
             background: rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -162,12 +158,11 @@
         .status-subtitle { font-size: 0.7rem; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 5px;}
         .status-dot { width: 6px; height: 6px; background: #10b981; border-radius: 50%; box-shadow: 0 0 6px #10b981; }
 
-        /* --- SISI KANAN (PUTIH): FORM --- */
+        /* --- SISI KANAN (PUTIH) --- */
         .form-side { width: 50%; padding: 5rem; display: flex; flex-direction: column; justify-content: center; }
         .form-title { font-weight: 800; color: #0f172a; font-size: 2.2rem; margin-bottom: 0.5rem; letter-spacing: -1px; }
         .form-subtitle { color: #64748b; font-size: 1rem; margin-bottom: 3rem; }
 
-        /* Styling Input */
         .input-group-custom { position: relative; margin-bottom: 1.5rem; }
         .input-group-custom i.icon-left {
             position: absolute; left: 1.3rem; top: 50%; transform: translateY(-50%);
@@ -189,7 +184,6 @@
             background: none; border: none; color: #94a3b8; padding: 0; cursor: pointer;
         }
 
-        /* Tombol Login */
         .btn-login {
             background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: white; border: none; border-radius: 14px; padding: 1rem; width: 100%;
@@ -199,15 +193,10 @@
         }
         .btn-login:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(37, 99, 235, 0.3); }
 
-        .form-check-input:checked { background-color: #2563eb; border-color: #2563eb; }
-
-        /* Footer */
         .form-footer { margin-top: 3rem; text-align: center; color: #94a3b8; font-size: 0.75rem; }
 
-        /* ==========================================================
-           RESPONSIVE (MOBILE)
-           ========================================================== */
         @media (max-width: 991px) {
+            html { zoom: 1 !important; -moz-transform: scale(1); } /* Matikan zoom di mobile agar tidak terlalu kecil */
             body { padding: 1rem; }
             .login-card { flex-direction: column-reverse; }
             .form-side, .brand-side { width: 100%; padding: 2.5rem 1.5rem; }
