@@ -28,13 +28,13 @@
         /* --- 1. SIDEBAR RESPONSIVE LOGIC --- */
         .sidebar { 
             width: var(--sidebar-width);
-            min-height: 100vh; 
+            height: 100vh; /* FIX LOGOUT KEPOTONG: Gunakan height fix agar overflow menu berfungsi */
             background: #0f172a;
             background-image: radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
             color: white;
             position: fixed;
             left: 0; top: 0;
-            z-index: 1050; /* Di atas segalanya */
+            z-index: 1050;
             display: flex;
             flex-direction: column;
             box-shadow: 10px 0 30px rgba(0,0,0,0.15);
@@ -63,7 +63,17 @@
         .brand-text h5 { margin: 0; font-weight: 800; line-height: 1.2; font-size: 0.85rem; text-transform: uppercase; color: #f8fafc; }
         .brand-text small { color: var(--accent-blue); font-size: 0.6rem; letter-spacing: 1.5px; font-weight: 700; }
 
-        .sidebar-menu { padding: 0 18px; list-style: none; overflow-y: auto; flex-grow: 1; }
+        .sidebar-menu { 
+            padding: 0 18px; 
+            list-style: none; 
+            overflow-y: auto; /* Menu akan scroll jika layar pendek */
+            flex-grow: 1; 
+        }
+        
+        /* Menyembunyikan visual scrollbar di menu agar tetap elegan */
+        .sidebar-menu::-webkit-scrollbar { display: none; }
+        .sidebar-menu { -ms-overflow-style: none; scrollbar-width: none; }
+
         .menu-header { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: #475569; margin: 25px 0 12px 12px; font-weight: 800; }
 
         .nav-link { 
@@ -73,7 +83,14 @@
         .nav-link:hover { background: rgba(255, 255, 255, 0.03); color: #fff; padding-left: 25px; }
         .nav-link.active { background: var(--primary-gradient); color: white; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2); }
 
-        .user-profile { margin: 20px; padding: 20px; background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        .user-profile { 
+            margin: 20px; padding: 20px; 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(10px); 
+            border-radius: 20px; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            flex-shrink: 0; /* Mencegah profil terpotong flexbox */
+        }
         .btn-logout { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); width: 100%; padding: 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; margin-top: 15px; transition: 0.3s; }
         .btn-logout:hover { background: #ef4444; color: white; }
 
@@ -86,10 +103,10 @@
         }
 
         .top-navbar {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(15px);
-            height: 75px;
-            padding: 0 25px;
+            height: 70px;
+            padding: 0 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -111,14 +128,12 @@
         }
 
         @media (max-width: 991.98px) {
-            .sidebar { left: -100%; } /* Sembunyikan sidebar di mobile */
-            .sidebar.active { left: 0; } /* Tampilkan saat aktif */
+            .sidebar { left: -100%; } 
+            .sidebar.active { left: 0; } 
             .main-content { margin-left: 0; width: 100%; }
             .sidebar-overlay.show { display: block; }
-            .top-navbar { padding: 0 15px; }
         }
 
-        /* Perbaikan tabel agar tidak berantakan di layar kecil */
         .table-responsive { border-radius: 15px; overflow-x: auto; background: white; }
     </style>
 </head>
@@ -130,7 +145,7 @@
     <div class="sidebar-brand">
         <div class="brand-icon"><i class="fa-solid fa-heart-pulse"></i></div>
         <div class="brand-text">
-            <h5>PROGRAM PRIORITAS <br> GUBERNUR & WAKIL GUBERNUR</h5>
+            <h5>PROGRAM PRIORITAS <br> GUBERNUR</h5>
             <small>EST. 2026</small>
         </div>
         <button class="btn btn-link text-white d-lg-none ms-auto p-0" id="closeSidebar">
@@ -141,22 +156,22 @@
     <ul class="sidebar-menu">
         @if(Auth::user()->role == 'admin')
             <li class="menu-header">Administrator</li>
-            <li><a href="{{ route('admin.home') }}" class="nav-link {{ request()->routeIs('admin.home') ? 'active' : '' }}"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-            <li><a href="{{ route('admin.users') }}" class="nav-link {{ request()->routeIs('admin.users*') ? 'active' : '' }}"><i class="fa-solid fa-user-gear"></i> Manajemen User</a></li>
+            <li><a href="{{ route('admin.home') }}" class="nav-link {{ request()->routeIs('admin.home') ? 'active' : '' }}"><i class="fa-solid fa-chart-pie me-2"></i> Dashboard</a></li>
+            <li><a href="{{ route('admin.users') }}" class="nav-link {{ request()->routeIs('admin.users*') ? 'active' : '' }}"><i class="fa-solid fa-user-gear me-2"></i> Manajemen User</a></li>
             <li class="menu-header">Monitoring</li>
-            <li><a href="{{ route('admin.bpjs') }}" class="nav-link {{ request()->routeIs('admin.bpjs') ? 'active' : '' }}"><i class="fa-solid fa-shield-heart"></i> Data BPJS</a></li>
-            <li><a href="{{ route('admin.ambulan') }}" class="nav-link {{ request()->routeIs('admin.ambulan') ? 'active' : '' }}"><i class="fa-solid fa-truck-fast"></i> Log Ambulan</a></li>
+            <li><a href="{{ route('admin.bpjs') }}" class="nav-link {{ request()->routeIs('admin.bpjs') ? 'active' : '' }}"><i class="fa-solid fa-shield-heart me-2"></i> Data BPJS</a></li>
+            <li><a href="{{ route('admin.ambulan') }}" class="nav-link {{ request()->routeIs('admin.ambulan') ? 'active' : '' }}"><i class="fa-solid fa-truck-fast me-2"></i> Log Ambulan</a></li>
         @endif
 
         @if(Auth::user()->role == 'puskesmas')
             <li class="menu-header">Layanan</li>
-            <li><a href="{{ route('puskesmas.home') }}" class="nav-link {{ request()->routeIs('puskesmas.home') ? 'active' : '' }}"><i class="fa-solid fa-file-waveform"></i> Pendaftaran BPJS</a></li>
+            <li><a href="{{ route('puskesmas.home') }}" class="nav-link {{ request()->routeIs('puskesmas.home') ? 'active' : '' }}"><i class="fa-solid fa-file-waveform me-2"></i> Pendaftaran BPJS</a></li>
         @endif
 
         @if(Auth::user()->role == 'ambulan')
             <li class="menu-header">Operasional</li>
-            <li><a href="{{ route('ambulan.dashboard') }}" class="nav-link {{ request()->routeIs('ambulan.dashboard') ? 'active' : '' }}"><i class="fa-solid fa-gauge-high"></i> Dashboard Driver</a></li>
-            <li><a href="{{ route('ambulan.profil') }}" class="nav-link {{ request()->routeIs('ambulan.profil') ? 'active' : '' }}"><i class="fa-solid fa-user-circle"></i> Profil Saya</a></li>
+            <li><a href="{{ route('ambulan.dashboard') }}" class="nav-link {{ request()->routeIs('ambulan.dashboard') ? 'active' : '' }}"><i class="fa-solid fa-gauge-high me-2"></i> Dashboard Driver</a></li>
+            <li><a href="{{ route('ambulan.profil') }}" class="nav-link {{ request()->routeIs('ambulan.profil') ? 'active' : '' }}"><i class="fa-solid fa-user-circle me-2"></i> Profil Saya</a></li>
         @endif
     </ul>
 
@@ -178,28 +193,20 @@
 </div>
 
 <div class="main-content">
-    <nav class="top-navbar">
-        <div class="d-flex align-items-center">
-            <button class="btn btn-white border shadow-sm rounded-3 me-3 d-lg-none" id="hamburger">
+    
+    <nav class="top-navbar d-lg-none">
+        <div class="d-flex align-items-center w-100">
+            <button class="btn btn-white border shadow-sm rounded-3 me-3" id="hamburger">
                 <i class="fa-solid fa-bars-staggered"></i>
             </button>
-            <div>
-                <span class="fw-bold fs-6 d-block text-dark">
-                    @if(Auth::user()->role == 'admin') Control Panel Admin
-                    @elseif(Auth::user()->role == 'puskesmas') Portal Puskesmas
-                    @else Driver Application
-                    @endif
-                </span>
-            </div>
-        </div>
-        <div class="d-none d-md-block text-end">
-            <div class="fw-bold small text-dark">{{ date('l, d F Y') }}</div>
+            <span class="fw-bold text-dark fs-6">Menu Navigasi</span>
         </div>
     </nav>
 
-    <div class="p-3 p-md-4">
+    <div class="p-3 p-md-4 pt-md-5"> 
         @yield('content')
     </div>
+
 </div>
 
 <div id="laravel-notifications" 
