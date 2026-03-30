@@ -112,7 +112,7 @@
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
         <div>
             <h2 class="page-title mb-1">Manajemen Pengguna</h2>
-            <p class="text-muted mb-0">Kelola akses sistem untuk Administrator, Puskesmas, dan Driver.</p>
+            <p class="text-muted mb-0">Kelola akses sistem untuk Administrator, Penginput BPJS, dan Driver.</p>
         </div>
         <button class="btn btn-primary fw-bold shadow rounded-pill px-4 py-2" data-bs-toggle="modal" data-bs-target="#addUserModal" style="box-shadow: 0 8px 15px -3px rgba(37, 99, 235, 0.3) !important; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
             <i class="fa-solid fa-plus me-2"></i> Tambah Pengguna
@@ -128,7 +128,7 @@
             </li>
             <li class="nav-item">
                 <button class="nav-link" id="puskesmas-tab" data-bs-toggle="tab" data-bs-target="#puskesmas-panel" type="button">
-                    <i class="fa-solid fa-hospital-user"></i> Puskesmas <span class="badge-tab">{{ $puskesmas->count() }}</span>
+                    <i class="fa-solid fa-file-medical"></i> Penginput BPJS <span class="badge-tab">{{ $puskesmas->count() }}</span>
                 </button>
             </li>
             <li class="nav-item">
@@ -202,7 +202,7 @@
                                         </div>
                                         <div>
                                             <h6 class="fw-bold text-dark mb-0 lh-1">{{ strtoupper($kabupaten ?? 'Wilayah Belum Terdata') }}</h6>
-                                            <small class="text-muted mt-1 d-block fw-semibold">{{ $items->count() }} Faskes Terdaftar</small>
+                                            <small class="text-muted mt-1 d-block fw-semibold">{{ $items->count() }} Penginput Terdaftar</small>
                                         </div>
                                     </div>
                                 </div>
@@ -213,7 +213,7 @@
                                 <table class="table table-modern table-responsive-mobile">
                                     <thead>
                                         <tr>
-                                            <th class="ps-md-4">Nama Puskesmas</th>
+                                            <th class="ps-md-4">Nama Instansi / Penginput</th>
                                             <th>Kecamatan</th>
                                             <th>Email Login</th>
                                             <th class="text-center">Aksi</th>
@@ -222,7 +222,7 @@
                                     <tbody>
                                         @foreach($items as $u)
                                         <tr>
-                                            <td class="col-nama ps-md-4" data-label="Puskesmas">
+                                            <td class="col-nama ps-md-4" data-label="Instansi / Penginput">
                                                 <div class="d-flex align-items-center w-100">
                                                     <div class="avatar-modern bg-primary bg-opacity-10 text-primary me-3">
                                                         {{ substr($u->name, 0, 1) }}
@@ -255,9 +255,9 @@
                 @empty
                     <div class="text-center py-5">
                         <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px; font-size: 2.5rem; color: #cbd5e1;">
-                            <i class="fa-solid fa-hospital-user"></i>
+                            <i class="fa-solid fa-file-medical"></i>
                         </div>
-                        <h6 class="fw-bold text-secondary">Belum ada data Petugas Puskesmas.</h6>
+                        <h6 class="fw-bold text-secondary">Belum ada data Penginput BPJS.</h6>
                     </div>
                 @endforelse
             </div>
@@ -380,7 +380,7 @@
                         <label class="form-label fw-bold text-secondary small text-uppercase">1. Pilih Peran (Role)</label>
                         <select name="role" id="roleSelect" class="form-select form-select-lg bg-light border-0 shadow-sm" style="border-radius: 12px; font-size: 0.95rem;" required onchange="updateFormLabel()">
                             <option value="" selected disabled>-- Pilih Jabatan Pengguna --</option>
-                            <option value="puskesmas">Petugas Puskesmas (BPJS)</option>
+                            <option value="puskesmas">Penginput BPJS</option>
                             <option value="ambulan">Driver Ambulan</option>
                             <option value="admin">Administrator Sistem</option>
                         </select>
@@ -449,17 +449,17 @@
 <script>
     // DATA WILAYAH PROVINSI BENGKULU
     const wilayahBengkulu = {
-    "Kota Bengkulu": ["Gading Cempaka", "Kampung Melayu", "Muara Bangka Hulu", "Ratu Agung", "Ratu Samban", "Selebar", "Singaran Pati", "Sungai Serut", "Teluk Segara"],
-    "Bengkulu Selatan": ["Air Nipis", "Bunga Mas", "Kedurang", "Kedurang Ilir", "Kota Manna", "Manna", "Pasar Manna", "Pino", "Pino Raya", "Seginim", "Ulu Manna"],
-    "Bengkulu Tengah": ["Bang Haji", "Karang Tinggi", "Merigi Kelindang", "Merigi Sakti", "Pagar Jati", "Pematang Tiga", "Pondok Kelapa", "Pondok Kubang", "Semidang Lagan", "Taba Penanjung", "Talang Empat"],
-    "Bengkulu Utara": ["Air Besi", "Air Napal", "Air Padang", "Arga Makmur", "Arma Jaya", "Batik Nau", "Enggano", "Giri Mulya", "Hulu Palik", "Kerkap", "Ketahun", "Lais", "Marga Sakti Sebelat", "Napal Putih", "Padang Jaya", "Pinang Raya", "Putri Hijau", "Tanjung Agung Palik", "Ulok Kupai"],
-    "Kaur": ["Kaur Selatan", "Kaur Tengah", "Kaur Utara", "Kelam Tengah", "Kinal", "Luas", "Lungkang Kule", "Maje", "Muara Sahung", "Nasal", "Padang Guci Hilir", "Padang Guci Hulu", "Semidang Gumay", "Tanjung Kemuning", "Tetap"],
-    "Kepahiang": ["Bermani Ilir", "Kabawetan", "Kepahiang", "Merigi", "Muara Kemumu", "Seberang Musi", "Tebat Karai", "Ujan Mas"],
-    "Lebong": ["Amen", "Bingin Kuning", "Lebong Atas", "Lebong Sakti", "Lebong Selatan", "Lebong Tengah", "Lebong Utara", "Pinang Belapis", "Rimbo Pengadang", "Topos", "Tubei", "Uram Jaya"],
-    "Mukomuko": ["Air Dikit", "Air Majunto", "Air Rami", "Ipuh", "Kota Mukomuko", "Lubuk Pinang", "Malin Deman", "Penarik", "Pondok Suguh", "Selagan Raya", "Sungai Rumbai", "Teramang Jaya", "Teras Terunjam", "V Koto", "XIV Koto"],
-    "Rejang Lebong": ["Bermani Ulu", "Bermani Ulu Raya", "Binduriang", "Curup", "Curup Selatan", "Curup Tengah", "Curup Timur", "Curup Utara", "Kota Padang", "Padang Ulak Tanding", "Selupu Rejang", "Sindang Beliti Ilir", "Sindang Beliti Ulu", "Sindang Dataran", "Sindang Kelingi"],
-    "Seluma": ["Air Periukan", "Ilir Talo", "Lubuk Sandi", "Seluma", "Seluma Barat", "Seluma Selatan", "Seluma Timur", "Seluma Utara", "Semidang Alas", "Semidang Alas Maras", "Sukaraja", "Talo", "Talo Kecil", "Ulu Talo"]
-};
+        "Kota Bengkulu": ["Gading Cempaka", "Kampung Melayu", "Muara Bangka Hulu", "Ratu Agung", "Ratu Samban", "Selebar", "Singaran Pati", "Sungai Serut", "Teluk Segara"],
+        "Bengkulu Selatan": ["Air Nipis", "Bunga Mas", "Kedurang", "Kedurang Ilir", "Kota Manna", "Manna", "Pasar Manna", "Pino", "Pino Raya", "Seginim", "Ulu Manna"],
+        "Bengkulu Tengah": ["Bang Haji", "Karang Tinggi", "Merigi Kelindang", "Merigi Sakti", "Pagar Jati", "Pematang Tiga", "Pondok Kelapa", "Pondok Kubang", "Semidang Lagan", "Taba Penanjung", "Talang Empat"],
+        "Bengkulu Utara": ["Air Besi", "Air Napal", "Air Padang", "Arga Makmur", "Arma Jaya", "Batik Nau", "Enggano", "Giri Mulya", "Hulu Palik", "Kerkap", "Ketahun", "Lais", "Marga Sakti Sebelat", "Napal Putih", "Padang Jaya", "Pinang Raya", "Putri Hijau", "Tanjung Agung Palik", "Ulok Kupai"],
+        "Kaur": ["Kaur Selatan", "Kaur Tengah", "Kaur Utara", "Kelam Tengah", "Kinal", "Luas", "Lungkang Kule", "Maje", "Muara Sahung", "Nasal", "Padang Guci Hilir", "Padang Guci Hulu", "Semidang Gumay", "Tanjung Kemuning", "Tetap"],
+        "Kepahiang": ["Bermani Ilir", "Kabawetan", "Kepahiang", "Merigi", "Muara Kemumu", "Seberang Musi", "Tebat Karai", "Ujan Mas"],
+        "Lebong": ["Amen", "Bingin Kuning", "Lebong Atas", "Lebong Sakti", "Lebong Selatan", "Lebong Tengah", "Lebong Utara", "Pinang Belapis", "Rimbo Pengadang", "Topos", "Tubei", "Uram Jaya"],
+        "Mukomuko": ["Air Dikit", "Air Majunto", "Air Rami", "Ipuh", "Kota Mukomuko", "Lubuk Pinang", "Malin Deman", "Penarik", "Pondok Suguh", "Selagan Raya", "Sungai Rumbai", "Teramang Jaya", "Teras Terunjam", "V Koto", "XIV Koto"],
+        "Rejang Lebong": ["Bermani Ulu", "Bermani Ulu Raya", "Binduriang", "Curup", "Curup Selatan", "Curup Tengah", "Curup Timur", "Curup Utara", "Kota Padang", "Padang Ulak Tanding", "Selupu Rejang", "Sindang Beliti Ilir", "Sindang Beliti Ulu", "Sindang Dataran", "Sindang Kelingi"],
+        "Seluma": ["Air Periukan", "Ilir Talo", "Lubuk Sandi", "Seluma", "Seluma Barat", "Seluma Selatan", "Seluma Timur", "Seluma Utara", "Semidang Alas", "Semidang Alas Maras", "Sukaraja", "Talo", "Talo Kecil", "Ulu Talo"]
+    };
 
     document.addEventListener("DOMContentLoaded", function() {
         const kabSelect = document.getElementById('kabupatenSelectModal');
@@ -469,7 +469,6 @@
             kabSelect.add(opt);
         }
 
-        // LOGIKA KONFIRMASI HAPUS MODERN (SWEETALERT2)
         const deleteButtons = document.querySelectorAll('.btn-delete');
         deleteButtons.forEach(button => {
             button.addEventListener('click', function(e) {
@@ -515,7 +514,7 @@
         let locationBox = document.getElementById('locationBox');
         let unitBox = document.getElementById('unitKerjaBox');
         let noHpBox = document.getElementById('noHpBox');
-        let nopolBox = document.getElementById('nopolBox'); // Kotak Nopol
+        let nopolBox = document.getElementById('nopolBox');
         let unitLabel = document.getElementById('unitLabel');
         let unitInput = document.getElementById('inputUnit');
         let labelNama = document.getElementById('labelNama');
@@ -527,7 +526,7 @@
             locationBox.style.display = 'block';
             unitBox.style.display = 'block';
             noHpBox.style.display = 'block';
-            nopolBox.style.display = 'block'; // Tampilkan NOPOL
+            nopolBox.style.display = 'block'; 
             unitLabel.innerText = 'Nama Desa / Kelurahan';
             labelNama.innerText = 'Nama Lengkap Supir';
             inputNama.placeholder = 'Contoh: Budi Santoso';
@@ -535,15 +534,15 @@
             locationBox.style.display = 'block';
             unitBox.style.display = 'none';
             noHpBox.style.display = 'none';
-            nopolBox.style.display = 'none'; // Sembunyikan NOPOL
-            labelNama.innerText = 'Nama Puskesmas';
-            inputNama.placeholder = 'Contoh: Puskesmas Bentiring';
+            nopolBox.style.display = 'none'; 
+            labelNama.innerText = 'Nama Instansi / Penginput BPJS'; 
+            inputNama.placeholder = 'Contoh: Klinik Sehat / Bidan Rini / RSUD'; 
             inputNama.oninput = function() { unitInput.value = this.value; };
         } else {
             locationBox.style.display = 'none';
             unitBox.style.display = 'none';
             noHpBox.style.display = 'none';
-            nopolBox.style.display = 'none';
+            nopolBox.style.display = 'none'; 
             unitInput.value = "Pusat";
             labelNama.innerText = 'Nama Lengkap';
             inputNama.placeholder = 'Masukkan nama Admin...';

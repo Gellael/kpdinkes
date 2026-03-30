@@ -28,7 +28,7 @@
     }
 
     /* =========================================================
-       DESAIN TOMBOL DOKUMEN (Diselaraskan dengan Puskesmas)
+       DESAIN TOMBOL DOKUMEN (Diselaraskan)
        ========================================================= */
     .doc-badge {
         display: inline-flex; align-items: center; gap: 6px;
@@ -78,9 +78,9 @@
             </div>
 
             <div class="col-md-3">
-                <label class="form-label small fw-bold text-secondary ls-1">PUSKESMAS PENGINPUT</label>
+                <label class="form-label small fw-bold text-secondary ls-1">PETUGAS PENGINPUT</label>
                 <select name="puskesmas_id" id="filterPuskesmas" class="form-select border-0 shadow-sm" style="border-radius: 15px;">
-                    <option value="">Semua Puskesmas</option>
+                    <option value="">Semua Penginput</option>
                     @foreach($listPuskesmas as $p)
                         <option value="{{ $p->id }}" 
                                 data-kabupaten="{{ $p->kabupaten }}" 
@@ -118,7 +118,7 @@
             <thead class="bg-primary bg-opacity-10 text-primary small text-uppercase fw-bold">
                 <tr>
                     <th class="ps-4 py-3">Data Warga</th>
-                    <th class="py-3">Puskesmas Pengirim</th>
+                    <th class="py-3">Penginput</th>
                     <th class="py-3">Wilayah</th>
                     <th class="py-3" style="width: 25%;">Dokumen</th>
                     <th class="py-3" style="width: 20%;">Status</th>
@@ -138,7 +138,7 @@
                         <div class="d-flex align-items-center">
                             <img src="https://ui-avatars.com/api/?name={{ urlencode($d->petugas->name ?? 'P') }}&background=random&color=fff&size=40" class="rounded-circle shadow-sm me-2" alt="Petugas">
                             <div>
-                                <span class="fw-bold d-block small text-dark">{{ $d->petugas->name ?? 'Puskesmas Terhapus' }}</span>
+                                <span class="fw-bold d-block small text-dark">{{ $d->petugas->name ?? 'Penginput Terhapus' }}</span>
                                 <small class="text-muted" style="font-size: 0.7rem;">
                                     <i class="fa-regular fa-clock me-1"></i> {{ $d->created_at->format('d M Y, H:i') }}
                                 </small>

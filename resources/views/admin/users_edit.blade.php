@@ -176,7 +176,7 @@
         } 
         else if(role === 'puskesmas') {
             locBox.style.display = 'block'; 
-            labelNama.innerText = 'NAMA PUSKESMAS'; 
+            labelNama.innerText = 'NAMA INSTANSI / PENGINPUT'; 
             unitBox.style.display = 'none'; 
         } 
         else if(role === 'ambulan') {
