@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Program Prioritas Gubernur dan Wakil Gubernur</title>
     
+    <link rel="icon" href="{{ asset('images/logoprov.png') }}" type="image/png">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -28,7 +30,7 @@
         /* --- 1. SIDEBAR RESPONSIVE LOGIC --- */
         .sidebar { 
             width: var(--sidebar-width);
-            height: 100vh; /* FIX LOGOUT KEPOTONG: Gunakan height fix agar overflow menu berfungsi */
+            height: 100vh;
             background: #0f172a;
             background-image: radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
             color: white;
@@ -66,11 +68,10 @@
         .sidebar-menu { 
             padding: 0 18px; 
             list-style: none; 
-            overflow-y: auto; /* Menu akan scroll jika layar pendek */
+            overflow-y: auto; 
             flex-grow: 1; 
         }
         
-        /* Menyembunyikan visual scrollbar di menu agar tetap elegan */
         .sidebar-menu::-webkit-scrollbar { display: none; }
         .sidebar-menu { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -89,12 +90,11 @@
             backdrop-filter: blur(10px); 
             border-radius: 20px; 
             border: 1px solid rgba(255,255,255,0.05); 
-            flex-shrink: 0; /* Mencegah profil terpotong flexbox */
+            flex-shrink: 0;
         }
         .btn-logout { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); width: 100%; padding: 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; margin-top: 15px; transition: 0.3s; }
         .btn-logout:hover { background: #ef4444; color: white; }
 
-        /* --- 2. MAIN CONTENT AREA --- */
         .main-content {
             margin-left: var(--sidebar-width);
             width: calc(100% - var(--sidebar-width));
@@ -116,7 +116,6 @@
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        /* --- 3. MOBILE RESPONSIVE FIXES --- */
         .sidebar-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -165,7 +164,7 @@
 
         @if(Auth::user()->role == 'puskesmas')
             <li class="menu-header">Layanan</li>
-            <li><a href="{{ route('puskesmas.home') }}" class="nav-link {{ request()->routeIs('puskesmas.home') ? 'active' : '' }}"><i class="fa-solid fa-file-waveform me-2"></i> Pendaftaran BPJS</a></li>
+            <li><a href="{{ route('puskesmas.home') }}" class="nav-link {{ request()->routeIs('puskesmas.home') ? 'active' : '' }}"><i class="fa-solid fa-file-waveform me-2"></i> Portal Penginput</a></li>
         @endif
 
         @if(Auth::user()->role == 'ambulan')
@@ -182,7 +181,7 @@
             </div>
             <div class="ms-3 overflow-hidden">
                 <div class="fw-bold text-white text-truncate small">{{ Auth::user()->name }}</div>
-                <div class="text-info fw-bold" style="font-size: 0.6rem; text-transform: uppercase;">{{ Auth::user()->role }}</div>
+                <div class="text-info fw-bold" style="font-size: 0.6rem; text-transform: uppercase;">{{ Auth::user()->role == 'puskesmas' ? 'Penginput' : Auth::user()->role }}</div>
             </div>
         </div>
         <form method="POST" action="{{ route('logout') }}">
