@@ -11,9 +11,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // Tambahkan baris ini
+        // Alias middleware custom Anda (RoleCheck)
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleCheck::class,
+        ]);
+
+        // MENGAKTIFKAN "SATPAM" SINGLE SESSION (Penendang device lain)
+        $middleware->web(append: [
+            \Illuminate\Session\Middleware\AuthenticateSession::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -24,21 +24,25 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(Request $request)
     {
-    $credentials = $request->validate([
-        'email' => ['required', 'email'],
-        'password' => ['required'],
-    ]);
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
+        if (Auth::attempt($credentials)) {
+            // --- FITUR SINGLE SESSION ---
+            // Baris ini akan menendang (logout) akun ini dari device lain
+            Auth::logoutOtherDevices($request->password);
 
-        // Diarahkan ke rute /dashboard agar diproses oleh logika role di web.php
-        return redirect()->intended('/dashboard');
-    }
+            $request->session()->regenerate();
 
-    return back()->withErrors([
-        'email' => 'Email atau password salah.',
-    ]);
+            // Diarahkan ke rute /dashboard agar diproses oleh logika role di web.php
+            return redirect()->intended('/dashboard');
+        }
+
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ]);
     }
 
     /**
