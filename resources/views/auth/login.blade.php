@@ -6,31 +6,20 @@
     <title>Akses Sistem - Program Prioritas Gubernur Bengkulu</title>
     
     <link rel="icon" href="{{ asset('images/logoprov.png') }}" type="image/png">
-    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* ==========================================================
-            MODIFIKASI SKALA GLOBAL (90%) 
-            ========================================================== */
-        html {
-            /* Menurunkan skala seluruh halaman ke 90% */
-            zoom: 0.9 !important; 
-            -moz-transform: scale(0.9);
-            -moz-transform-origin: top center;
-        }
-
         body {
             font-family: 'Poppins', sans-serif;
             background: #f0f4f8; 
-            min-height: 100vh;
+            height: 100vh; /* Dikunci persis 1 layar penuh */
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0;
-            overflow-x: hidden;
+            overflow: hidden; /* Mematikan scrollbar browser di desktop */
             position: relative;
         }
 
@@ -54,160 +43,160 @@
         /* --- KARTU UTAMA --- */
         .login-card {
             display: flex;
-            max-width: 1100px;
-            width: 95%;
+            max-width: 880px; 
+            width: 95%; /* Margin aman di kiri kanan otomatis dari sini */
+            max-height: 95vh; /* Memastikan kartu tidak akan pernah melebihi layar */
             background: #ffffff;
-            border-radius: 28px; 
-            box-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.2); 
+            border-radius: 20px; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); 
             overflow: hidden;
-            opacity: 0;
-            transform: translateY(40px);
-            animation: cardEntrance 0.8s ease-out forwards;
-            position: relative;
+            animation: cardEntrance 0.6s ease-out forwards;
             z-index: 10;
         }
 
         @keyframes cardEntrance {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         /* --- SISI KIRI (BIRU) --- */
         .brand-side {
-            width: 50%;
+            width: 45%;
             background: linear-gradient(150deg, #1e3a8a 0%, #1d4ed8 100%);
-            padding: 3rem;
+            padding: 2rem 1.5rem; 
             color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
-            border-right: 8px solid #f59e0b;
+            justify-content: center;
+            border-right: 6px solid #f59e0b;
         }
 
-        .brand-content { position: relative; z-index: 2; width: 100%; text-align: center; }
+        .brand-content { width: 100%; text-align: center; }
         
         .logo-box {
-            width: 60px; height: 60px;
+            width: 45px; height: 45px; 
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
+            border-radius: 12px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.8rem; margin: 0 auto 1.5rem auto;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            font-size: 1.3rem; margin: 0 auto 0.8rem auto;
         }
 
-        .brand-side h2 { font-size: 1.7rem; line-height: 1.2; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 1rem; }
-        .brand-desc { font-size: 0.9rem; opacity: 0.8; margin-bottom: 2rem; font-weight: 300; max-width: 400px; margin-left: auto; margin-right: auto; }
+        .brand-side h2 { font-size: 1.15rem; line-height: 1.3; font-weight: 800; margin-bottom: 0.3rem; }
+        .brand-desc { font-size: 0.75rem; opacity: 0.8; margin-bottom: 1.2rem; max-width: 300px; margin-left: auto; margin-right: auto; }
 
         .leader-photo-container {
-            position: relative;
             width: 100%;
-            max-width: 420px;
-            margin-bottom: 2.5rem;
+            max-width: 200px; /* Foto sedikit dikecilkan lagi agar lebih pas di layar 14 inch */
+            margin: 0 auto 1.2rem auto;
             background: #ffffff;
-            padding: 15px;
-            border-radius: 24px;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4), 0 0 0 8px rgba(255,255,255,0.1); 
-            border: 4px solid #f59e0b;
-            transition: transform 0.3s ease;
+            padding: 6px;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); 
+            border: 3px solid #f59e0b;
         }
-        .leader-photo-container:hover { transform: translateY(-5px) scale(1.02); }
 
         .leader-photo-frame {
-            border: 2px solid #e2e8f0; 
-            border-radius: 14px;
+            border: 1px solid #e2e8f0; 
+            border-radius: 10px;
             overflow: hidden;
             background: #f8fafc;
         }
 
         .leader-photo-container img {
-            max-width: 100%;
+            width: 100%;
             height: auto;
-            max-height: 260px; 
-            object-fit: contain;
             display: block;
-            margin: 0 auto;
         }
 
         .leader-caption-box {
             background: #1e3a8a;
             color: #ffffff;
-            padding: 10px;
-            border-radius: 10px;
-            margin-top: 15px;
+            padding: 5px;
+            border-radius: 6px;
+            margin-top: 6px;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.65rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        .status-wrapper { display: flex; gap: 15px; width: 100%; max-width: 400px; }
+        .status-wrapper { display: flex; gap: 10px; width: 100%; max-width: 260px; margin: 0 auto; }
         .status-card {
             background: rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px; padding: 12px;
-            display: flex; align-items: center; gap: 10px; flex: 1;
+            border-radius: 8px; padding: 6px 10px;
+            display: flex; align-items: center; gap: 8px; flex: 1;
         }
         .status-icon {
-            width: 35px; height: 35px; border-radius: 8px; 
+            width: 24px; height: 24px; border-radius: 6px; 
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem; color: white; flex-shrink: 0;
+            font-size: 0.75rem; color: white; flex-shrink: 0;
         }
         .icon-ambulan { background: #b45309; }
         .icon-bpjs { background: #047857; }
-        .status-title { font-size: 0.85rem; font-weight: 600; color: #ffffff; }
-        .status-subtitle { font-size: 0.7rem; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 5px;}
-        .status-dot { width: 6px; height: 6px; background: #10b981; border-radius: 50%; box-shadow: 0 0 6px #10b981; }
+        .status-text-group { text-align: left; line-height: 1.1; }
+        .status-title { font-size: 0.7rem; font-weight: 600; color: #ffffff; display: block;}
+        .status-subtitle { font-size: 0.6rem; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 4px; margin-top: 2px;}
+        .status-dot { width: 5px; height: 5px; background: #10b981; border-radius: 50%; box-shadow: 0 0 5px #10b981; }
 
         /* --- SISI KANAN (PUTIH) --- */
-        .form-side { width: 50%; padding: 5rem; display: flex; flex-direction: column; justify-content: center; }
-        .form-title { font-weight: 800; color: #0f172a; font-size: 2.2rem; margin-bottom: 0.5rem; letter-spacing: -1px; }
-        .form-subtitle { color: #64748b; font-size: 1rem; margin-bottom: 3rem; }
+        .form-side { 
+            width: 55%; 
+            padding: 2rem 3.5rem; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+        }
+        
+        .form-title { font-weight: 800; color: #0f172a; font-size: 1.5rem; margin-bottom: 0.2rem; }
+        .form-subtitle { color: #64748b; font-size: 0.8rem; margin-bottom: 1.5rem; }
 
-        .input-group-custom { position: relative; margin-bottom: 1.5rem; }
+        .input-group-custom { position: relative; margin-bottom: 1rem; }
         .input-group-custom i.icon-left {
-            position: absolute; left: 1.3rem; top: 50%; transform: translateY(-50%);
-            color: #94a3b8; font-size: 1.1rem; transition: 0.3s; z-index: 10;
+            position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+            color: #94a3b8; font-size: 0.9rem; transition: 0.3s; z-index: 10;
         }
         .form-control-custom {
-            width: 100%; padding: 1rem 1rem 1rem 3.5rem;
-            background-color: #f8fafc; border: 2px solid #e2e8f0; border-radius: 14px; 
-            font-size: 0.95rem; color: #1e293b; transition: 0.3s;
+            width: 100%; padding: 0.7rem 1rem 0.7rem 2.5rem;
+            background-color: #f8fafc; border: 2px solid #e2e8f0; border-radius: 10px; 
+            font-size: 0.85rem; color: #1e293b; transition: 0.3s;
         }
         .form-control-custom:focus {
             background-color: #ffffff; border-color: #3b82f6;
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1); outline: none;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1); outline: none;
         }
         .form-control-custom:focus + i.icon-left { color: #3b82f6; }
 
         .btn-toggle-password {
-            position: absolute; right: 1.3rem; top: 50%; transform: translateY(-50%);
+            position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
             background: none; border: none; color: #94a3b8; padding: 0; cursor: pointer;
         }
 
         .btn-login {
             background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            color: white; border: none; border-radius: 14px; padding: 1rem; width: 100%;
-            font-weight: 600; font-size: 1.05rem; transition: 0.3s;
-            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2);
-            display: flex; align-items: center; justify-content: center; gap: 10px;
+            color: white; border: none; border-radius: 10px; padding: 0.75rem; width: 100%;
+            font-weight: 600; font-size: 0.9rem; transition: 0.3s;
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.2);
+            margin-top: 0.5rem;
         }
-        .btn-login:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(37, 99, 235, 0.3); }
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3); }
 
-        .form-footer { margin-top: 3rem; text-align: center; color: #94a3b8; font-size: 0.75rem; }
+        .form-footer { margin-top: 1.5rem; text-align: center; color: #94a3b8; font-size: 0.65rem; }
 
-        @media (max-width: 991px) {
-            html { zoom: 1 !important; -moz-transform: scale(1); } /* Matikan zoom di mobile agar tidak terlalu kecil */
-            body { padding: 1rem; }
-            .login-card { flex-direction: column-reverse; }
-            .form-side, .brand-side { width: 100%; padding: 2.5rem 1.5rem; }
-            .form-side { padding-top: 3rem; }
-            .brand-side { border-right: none; border-top: 8px solid #f59e0b; }
-            .leader-photo-container { max-width: 100%; }
-            .leader-photo-container img { max-height: 180px; }
-            .form-title { font-size: 1.8rem; text-align: center; }
-            .form-subtitle { text-align: center; font-size: 0.9rem; }
+        /* --- RESPONSIVE MOBILE --- */
+        @media (max-width: 850px) {
+            body { 
+                height: auto; 
+                overflow-y: auto; /* Mengembalikan scroll untuk HP */
+                padding: 15px; 
+            }
+            .login-card { flex-direction: column; max-height: none; }
+            .brand-side { width: 100%; padding: 2rem; border-right: none; border-bottom: 6px solid #f59e0b; }
+            .form-side { width: 100%; padding: 2rem 1.5rem; }
+            .leader-photo-container { max-width: 200px; }
+            .form-title { text-align: center; }
+            .form-subtitle { text-align: center; }
         }
     </style>
 </head>
@@ -231,9 +220,10 @@
                     <img src="{{ asset('images/gubernur-wakil-gubernur-bengkulu.png') }}" alt="Gubernur dan Wakil Gubernur Bengkulu">
                 </div>
                 <div class="leader-caption-box">
-                    Gubernur & Wakil Gubernur Bengkulu
+                    Gub & Wagub Bengkulu
                 </div>
             </div>
+            
             <div class="status-wrapper">
                 <div class="status-card">
                     <div class="status-icon icon-ambulan">
@@ -262,8 +252,8 @@
         <p class="form-subtitle">Masukkan akun dinas Anda untuk melanjutkan.</p>
 
         @if ($errors->any())
-            <div class="alert alert-danger border-0 bg-danger bg-opacity-10 text-danger rounded-4 px-4 py-3 small fw-medium mb-4 d-flex align-items-center">
-                <i class="fa-solid fa-circle-exclamation fs-5 me-3"></i> 
+            <div class="alert alert-danger border-0 bg-danger bg-opacity-10 text-danger rounded-3 px-3 py-2 small fw-medium mb-3 d-flex align-items-center">
+                <i class="fa-solid fa-circle-exclamation fs-6 me-2"></i> 
                 <div>Email atau password tidak valid.</div>
             </div>
         @endif
@@ -281,9 +271,9 @@
                     <i class="fa-regular fa-eye" id="eyeIcon"></i>
                 </button>
             </div>
-            <div class="mb-4 form-check">
+            <div class="mb-3 form-check">
                 <input class="form-check-input shadow-none" type="checkbox" name="remember" id="remember">
-                <label class="form-check-label small text-muted fw-medium" for="remember">Ingat sesi saya</label>
+                <label class="form-check-label small text-muted fw-medium" for="remember" style="font-size: 0.8rem;">Ingat sesi saya</label>
             </div>
             <button type="submit" class="btn-login">Masuk ke Dashboard</button>
         </form>
