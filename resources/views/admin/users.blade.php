@@ -308,7 +308,14 @@
                                                     <div class="avatar-modern bg-danger bg-opacity-10 text-danger me-3">
                                                         {{ substr($u->name, 0, 1) }}
                                                     </div>
-                                                    <span class="fw-bold text-dark text-start" style="font-size: 0.95rem;">{{ $u->name }}</span>
+                                                    <div>
+                                                        <span class="fw-bold text-dark text-start d-block" style="font-size: 0.95rem;">{{ $u->name }}</span>
+                                                        @if($u->nopol)
+                                                        <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 mt-1">
+                                                            <i class="fa-solid fa-car-side me-1"></i> {{ $u->nopol }}
+                                                        </span>
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </td>
                                             <td data-label="Wilayah Tugas">
@@ -405,7 +412,20 @@
                         <input type="text" name="unit_kerja" id="inputUnit" class="form-control" style="border-radius: 10px; padding: 12px 15px;" placeholder="..." required>
                     </div>
 
-                    <div class="row g-3 mb-4">
+                    <div class="mb-3" id="nopolBox" style="display: none;">
+                        <label class="form-label fw-bold text-secondary small text-uppercase">Nomor Polisi (NOPOL) Ambulan</label>
+                        <input type="text" name="nopol" class="form-control text-uppercase" style="border-radius: 10px; padding: 12px 15px;" placeholder="Contoh: BD 1234 XY">
+                        <div class="form-text mt-1 text-muted" style="font-size: 0.75rem;">
+                            <i class="fa-solid fa-circle-info me-1"></i> Input plat nomor khusus untuk pendataan armada ambulan.
+                        </div>
+                    </div>
+
+                    <div class="mb-3" id="noHpBox" style="display: none;">
+                        <label class="form-label fw-bold text-secondary small text-uppercase">Nomor HP / WhatsApp Aktif</label>
+                        <input type="number" name="no_hp" class="form-control" style="border-radius: 10px; padding: 12px 15px;" placeholder="08xxx...">
+                    </div>
+
+                    <div class="row g-3 mb-4 mt-1">
                         <div class="col-md-6">
                             <label class="form-label fw-bold text-secondary small text-uppercase">Email (Login)</label>
                             <input type="email" name="email" class="form-control" style="border-radius: 10px; padding: 12px 15px;" placeholder="user@email.com" required>
@@ -414,11 +434,6 @@
                             <label class="form-label fw-bold text-secondary small text-uppercase">Password</label>
                             <input type="password" name="password" class="form-control" style="border-radius: 10px; padding: 12px 15px;" placeholder="Min. 6 Karakter" required>
                         </div>
-                    </div>
-
-                    <div class="mb-3" id="noHpBox" style="display: none;">
-                        <label class="form-label fw-bold text-secondary small text-uppercase">Nomor HP / WhatsApp Aktif</label>
-                        <input type="number" name="no_hp" class="form-control" style="border-radius: 10px; padding: 12px 15px;" placeholder="08xxx...">
                     </div>
                 </div>
                 <div class="modal-footer border-top p-3 bg-light">
@@ -494,11 +509,13 @@
         }
     }
 
+    // LOGIKA PENYESUAIAN FORM BERDASARKAN ROLE
     function updateFormLabel() {
         let role = document.getElementById('roleSelect').value;
         let locationBox = document.getElementById('locationBox');
         let unitBox = document.getElementById('unitKerjaBox');
         let noHpBox = document.getElementById('noHpBox');
+        let nopolBox = document.getElementById('nopolBox'); // Kotak Nopol
         let unitLabel = document.getElementById('unitLabel');
         let unitInput = document.getElementById('inputUnit');
         let labelNama = document.getElementById('labelNama');
@@ -510,6 +527,7 @@
             locationBox.style.display = 'block';
             unitBox.style.display = 'block';
             noHpBox.style.display = 'block';
+            nopolBox.style.display = 'block'; // Tampilkan NOPOL
             unitLabel.innerText = 'Nama Desa / Kelurahan';
             labelNama.innerText = 'Nama Lengkap Supir';
             inputNama.placeholder = 'Contoh: Budi Santoso';
@@ -517,6 +535,7 @@
             locationBox.style.display = 'block';
             unitBox.style.display = 'none';
             noHpBox.style.display = 'none';
+            nopolBox.style.display = 'none'; // Sembunyikan NOPOL
             labelNama.innerText = 'Nama Puskesmas';
             inputNama.placeholder = 'Contoh: Puskesmas Bentiring';
             inputNama.oninput = function() { unitInput.value = this.value; };
@@ -524,6 +543,7 @@
             locationBox.style.display = 'none';
             unitBox.style.display = 'none';
             noHpBox.style.display = 'none';
+            nopolBox.style.display = 'none';
             unitInput.value = "Pusat";
             labelNama.innerText = 'Nama Lengkap';
             inputNama.placeholder = 'Masukkan nama Admin...';

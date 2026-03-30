@@ -74,12 +74,20 @@
                         <hr class="border-secondary opacity-10">
 
                         <div class="mb-4">
-                            <label class="form-label fw-bold text-dark small"><i class="fa-solid fa-lock me-1"></i> DATA WILAYAH (READ ONLY)</label>
+                            <label class="form-label fw-bold text-dark small"><i class="fa-solid fa-lock me-1"></i> DATA WILAYAH & ARMADA (READ ONLY)</label>
                             <div class="alert alert-light border small text-muted mb-3">
-                                <i class="fa-solid fa-circle-info me-1"></i> Data wilayah hanya bisa diubah oleh Admin Dinas Kesehatan.
+                                <i class="fa-solid fa-circle-info me-1"></i> Data di bawah ini hanya bisa diubah oleh Admin Dinas Kesehatan.
                             </div>
 
                             <div class="row g-3">
+                                <div class="col-12 mb-2">
+                                    <label class="form-label small text-muted fw-bold">Nomor Polisi (NOPOL) Kendaraan</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-car-side text-muted"></i></span>
+                                        <input type="text" class="form-control bg-light text-muted fw-bold border-start-0 text-uppercase" style="letter-spacing: 1px;" value="{{ $user->nopol ?? 'BELUM DIATUR ADMIN' }}" readonly disabled>
+                                    </div>
+                                </div>
+
                                 <div class="col-md-6">
                                     <label class="form-label small text-muted">Kabupaten / Kota</label>
                                     <input type="text" class="form-control bg-light" value="{{ $user->kabupaten }}" readonly disabled>

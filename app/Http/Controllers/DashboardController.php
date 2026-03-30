@@ -58,6 +58,7 @@ class DashboardController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required',
             'role' => 'required',
+            'nopol' => 'nullable|string|max:20', // <-- Validasi NOPOL ditambahkan
         ]);
 
         User::create([
@@ -69,6 +70,7 @@ class DashboardController extends Controller
             'kecamatan' => $request->kecamatan,   
             'kabupaten' => $request->kabupaten,   
             'no_hp' => $request->no_hp,
+            'nopol' => $request->nopol, // <-- Menyimpan NOPOL ke database
         ]);
 
         return back()->with('success', 'User berhasil ditambahkan');
@@ -84,7 +86,8 @@ class DashboardController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
-            'role' => 'required'
+            'role' => 'required',
+            'nopol' => 'nullable|string|max:20', // <-- Validasi NOPOL ditambahkan
         ]);
         
         $data = [
@@ -95,6 +98,7 @@ class DashboardController extends Controller
             'kecamatan' => $request->kecamatan, 
             'kabupaten' => $request->kabupaten, 
             'no_hp' => $request->no_hp,
+            'nopol' => $request->nopol, // <-- Mengupdate NOPOL di database
         ];
 
         if($request->filled('password')) {

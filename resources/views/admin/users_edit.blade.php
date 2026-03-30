@@ -92,6 +92,17 @@
                         <input type="number" name="no_hp" class="form-control" value="{{ $user->no_hp }}" placeholder="08...">
                     </div>
 
+                    <div class="col-md-12" id="nopolBox" style="display: none;">
+                        <label class="form-label fw-bold text-secondary small">NOMOR POLISI (NOPOL) AMBULAN</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-car-side text-muted"></i></span>
+                            <input type="text" name="nopol" class="form-control border-start-0 text-uppercase" value="{{ $user->nopol }}" placeholder="Contoh: BD 1234 XY">
+                        </div>
+                        <div class="form-text mt-1 text-muted" style="font-size: 0.75rem;">
+                            <i class="fa-solid fa-circle-info me-1"></i> Input plat nomor khusus untuk pendataan armada ambulan.
+                        </div>
+                    </div>
+
                     <hr class="my-4 text-muted opacity-25">
 
                     <div class="col-md-12">
@@ -150,6 +161,7 @@
         let unitBox = document.getElementById('unitBox');
         let kadesBox = document.getElementById('kadesBox');
         let locBox = document.getElementById('locationSelectionBox'); 
+        let nopolBox = document.getElementById('nopolBox'); // Kotak Nopol
         let labelNama = document.getElementById('labelNama');
         let inputUnit = document.getElementsByName('unit_kerja')[0];
 
@@ -157,19 +169,21 @@
         unitBox.style.display = 'none';
         locBox.style.display = 'none';
         kadesBox.style.display = 'none';
+        nopolBox.style.display = 'none'; // Sembunyikan by default
 
         if(role === 'admin') {
             labelNama.innerText = 'NAMA LENGKAP';
         } 
         else if(role === 'puskesmas') {
             locBox.style.display = 'block'; 
-            labelNama.innerText = 'NAMA PUSKESMAS'; // Input 'name' sekarang untuk Nama Puskesmas
-            unitBox.style.display = 'none'; // Sembunyikan input unit_kerja agar tidak double
+            labelNama.innerText = 'NAMA PUSKESMAS'; 
+            unitBox.style.display = 'none'; 
         } 
         else if(role === 'ambulan') {
             locBox.style.display = 'block';
             unitBox.style.display = 'block';
             kadesBox.style.display = 'block';
+            nopolBox.style.display = 'block'; // Tampilkan kotak Nopol khusus Driver Ambulan
             labelNama.innerText = 'NAMA LENGKAP SUPIR';
             document.getElementById('unitLabel').innerText = 'NAMA DESA / KELURAHAN';
             inputUnit.placeholder = 'Contoh: Kelurahan Anggut';
