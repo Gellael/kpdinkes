@@ -129,17 +129,17 @@
 
 <script>
     const dataWilayah = {
-        "Kota Bengkulu": ["Gading Cempaka", "Kampung Melayu", "Muara Bangka Hulu", "Ratu Agung", "Ratu Samban", "Selebar", "Singaran Pati", "Sungai Serut", "Teluk Segara"],
-        "Bengkulu Selatan": ["Kedurang", "Seginim", "Pino", "Manna", "Kota Manna", "Pasar Manna", "Pino Raya", "Bunga Mas", "Air Nipis", "Ulu Manna", "Kedurang Ilir"],
-        "Bengkulu Tengah": ["Karang Tinggi", "Talang Empat", "Pondok Kelapa", "Pematang Tiga", "Pagar Jati", "Taba Penanjung", "Merigi Kelindang", "Merigi Sakti", "Bang Haji", "Pondok Kubang"],
-        "Bengkulu Utara": ["Arga Makmur", "Arma Jaya", "Batik Nau", "Giri Mulya", "Air Padang", "Air Besi", "Air Napal", "Enggano", "Hulu Palik", "Kerkap", "Ketahun", "Lais", "Marga Sakti Sebelat", "Napal Putih", "Padang Jaya", "Pinang Raya", "Putri Hijau", "Tanjung Agung Palik", "Ulok Kupai"],
-        "Kaur": ["Kaur Selatan", "Kaur Tengah", "Kaur Utara", "Kelam Tengah", "Kinal", "Luas", "Lungkang Kule", "Maje", "Muara Sahung", "Nasal", "Padang Guci Hilir", "Padang Guci Hulu", "Semidang Gumay", "Tetap", "Tanjung Kemuning"],
-        "Kepahiang": ["Kepahiang", "Awang Sari", "Bermani Ilir", "Kabawetan", "Merigi", "Muara Kemumu", "Seberang Musi", "Tebat Karai", "Ujan Mas"],
-        "Lebong": ["Lebong Atas", "Lebong Tengah", "Lebong Selatan", "Lebong Sakti", "Lebong Utara", "Amen", "Bingin Kuning", "Pinang Belapis", "Rimbo Pengadang", "Topos", "Uram Jaya", "Pelebai"],
-        "Mukomuko": ["Kota Mukomuko", "Teras Terunjam", "Pondok Suguh", "Ipuh", "Malin Deman", "Air Rami", "Teramang Jaya", "Selagan Raya", "Penarik", "V Koto", "XIV Koto", "Air Majunto", "Air Dikit", "Sungai Rumbai"],
-        "Rejang Lebong": ["Curup", "Curup Selatan", "Curup Tengah", "Curup Timur", "Curup Utara", "Bermani Ulu", "Bermani Ulu Raya", "Binduriang", "Kota Padang", "Padang Ulak Tanding", "Sindang Beliti Ilir", "Sindang Beliti Ulu", "Sindang Dataran", "Sindang Kelingi", "Selupu Rejang"],
-        "Seluma": ["Seluma", "Seluma Barat", "Seluma Selatan", "Seluma Timur", "Seluma Utara", "Semidang Alas", "Semidang Alas Maras", "Talo", "Talo Kecil", "Ulu Talo", "Air Periukan", "Lubuk Sandi", "Sukaraja", "Ilir Talo"]
-    };
+    "Kota Bengkulu": ["Gading Cempaka", "Kampung Melayu", "Muara Bangka Hulu", "Ratu Agung", "Ratu Samban", "Selebar", "Singaran Pati", "Sungai Serut", "Teluk Segara"],
+    "Bengkulu Selatan": ["Air Nipis", "Bunga Mas", "Kedurang", "Kedurang Ilir", "Kota Manna", "Manna", "Pasar Manna", "Pino", "Pino Raya", "Seginim", "Ulu Manna"],
+    "Bengkulu Tengah": ["Bang Haji", "Karang Tinggi", "Merigi Kelindang", "Merigi Sakti", "Pagar Jati", "Pematang Tiga", "Pondok Kelapa", "Pondok Kubang", "Semidang Lagan", "Taba Penanjung", "Talang Empat"],
+    "Bengkulu Utara": ["Air Besi", "Air Napal", "Air Padang", "Arga Makmur", "Arma Jaya", "Batik Nau", "Enggano", "Giri Mulya", "Hulu Palik", "Kerkap", "Ketahun", "Lais", "Marga Sakti Sebelat", "Napal Putih", "Padang Jaya", "Pinang Raya", "Putri Hijau", "Tanjung Agung Palik", "Ulok Kupai"],
+    "Kaur": ["Kaur Selatan", "Kaur Tengah", "Kaur Utara", "Kelam Tengah", "Kinal", "Luas", "Lungkang Kule", "Maje", "Muara Sahung", "Nasal", "Padang Guci Hilir", "Padang Guci Hulu", "Semidang Gumay", "Tanjung Kemuning", "Tetap"],
+    "Kepahiang": ["Bermani Ilir", "Kabawetan", "Kepahiang", "Merigi", "Muara Kemumu", "Seberang Musi", "Tebat Karai", "Ujan Mas"],
+    "Lebong": ["Amen", "Bingin Kuning", "Lebong Atas", "Lebong Sakti", "Lebong Selatan", "Lebong Tengah", "Lebong Utara", "Pinang Belapis", "Rimbo Pengadang", "Topos", "Tubei", "Uram Jaya"],
+    "Mukomuko": ["Air Dikit", "Air Majunto", "Air Rami", "Ipuh", "Kota Mukomuko", "Lubuk Pinang", "Malin Deman", "Penarik", "Pondok Suguh", "Selagan Raya", "Sungai Rumbai", "Teramang Jaya", "Teras Terunjam", "V Koto", "XIV Koto"],
+    "Rejang Lebong": ["Bermani Ulu", "Bermani Ulu Raya", "Binduriang", "Curup", "Curup Selatan", "Curup Tengah", "Curup Timur", "Curup Utara", "Kota Padang", "Padang Ulak Tanding", "Selupu Rejang", "Sindang Beliti Ilir", "Sindang Beliti Ulu", "Sindang Dataran", "Sindang Kelingi"],
+    "Seluma": ["Air Periukan", "Ilir Talo", "Lubuk Sandi", "Seluma", "Seluma Barat", "Seluma Selatan", "Seluma Timur", "Seluma Utara", "Semidang Alas", "Semidang Alas Maras", "Sukaraja", "Talo", "Talo Kecil", "Ulu Talo"]
+};
 
     function populateKecamatan() {
         let wilayahSelect = document.getElementById('wilayahSelect');
