@@ -279,7 +279,7 @@ class DashboardController extends Controller
             'status_verifikasi' => 'pending'
         ]);
         
-        return back()->with('success', 'Berhasil! Data warga tersimpan via Cloudinary.');
+        return back()->with('success', 'Data pendaftaran BPJS berhasil dikirim dan sedang menunggu verifikasi Admin.');
     }
 
     // ==========================================
