@@ -208,6 +208,21 @@ class DashboardController extends Controller
         return view('admin.ambulan_detail', compact('driver', 'logs'));
     }
 
+    // ==========================================
+    // FITUR BARU: HAPUS LOG AMBULAN
+    // ==========================================
+    public function destroyAmbulan($id)
+    {
+        // Cari data log berdasarkan ID (menggunakan Model AmbulanceLog)
+        $log = AmbulanceLog::findOrFail($id);
+        
+        // Hapus data log tersebut
+        $log->delete();
+
+        // Kembalikan ke halaman sebelumnya dengan pesan sukses
+        return redirect()->back()->with('success', 'Data log ambulan berhasil dihapus secara permanen!');
+    }
+
     public function exportData(Request $request, $type) {
         $fileName = $type . '_data_' . date('Y-m-d_H-i') . '.csv';
         $headers = ["Content-type" => "text/csv", "Content-Disposition" => "attachment; filename=$fileName", "Pragma" => "no-cache", "Cache-Control" => "must-revalidate", "Expires" => "0"];

@@ -2,6 +2,8 @@
 
 @section('content')
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <div class="row g-3 mb-4">
     <div class="col-md-4">
         <div class="card border-0 shadow-sm rounded-4 bg-primary text-white overflow-hidden">
@@ -133,7 +135,7 @@
 <div class="mt-5 border-top pt-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
-            <h5 class="fw-bold text-dark mb-0"><i class="fa-solid fa-clock-rotate-left me-2"></i> Log Operasional Terbaru</h5>
+            <h5 class="fw-bold text-dark mb-0" style="font-family: 'Poppins', sans-serif;"><i class="fa-solid fa-clock-rotate-left me-2"></i> Log Operasional Terbaru</h5>
             <small class="text-muted">Riwayat penggunaan armada secara real-time.</small>
         </div>
         <a href="{{ route('admin.export', 'ambulan') }}" class="btn btn-success btn-sm shadow-sm rounded-3">
@@ -143,30 +145,31 @@
 
     <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="bg-light text-secondary small text-uppercase">
+            <table class="table table-hover align-middle mb-0" style="font-family: 'Poppins', sans-serif;">
+                <thead class="bg-light text-secondary small text-uppercase fw-semibold">
                     <tr>
-                        <th class="ps-4">Waktu</th>
-                        <th>Driver & Armada</th>
-                        <th>Pasien & Pelayanan</th>
-                        <th>Lokasi & Tujuan</th>
-                        <th class="text-center">Bukti</th>
+                        <th class="ps-4 py-3">Waktu</th>
+                        <th class="py-3">Driver & Armada</th>
+                        <th class="py-3">Pasien & Pelayanan</th>
+                        <th class="py-3">Lokasi & Tujuan</th>
+                        <th class="text-center py-3">Bukti</th>
+                        <th class="text-center py-3">Aksi</th> 
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($logs as $log)
                     <tr>
                         <td class="ps-4">
-                            <div class="fw-bold text-dark small">{{ \Carbon\Carbon::parse($log->waktu_berangkat)->format('d/m/Y') }}</div>
+                            <div class="fw-bold text-dark" style="font-size: 0.85rem;">{{ \Carbon\Carbon::parse($log->waktu_berangkat)->format('d/m/Y') }}</div>
                             <small class="text-muted">{{ \Carbon\Carbon::parse($log->waktu_berangkat)->format('H:i') }} WIB</small>
                         </td>
                         <td>
-                            <div class="fw-bold text-dark small">{{ $log->driver->name ?? 'User Dihapus' }}</div>
+                            <div class="fw-bold text-dark" style="font-size: 0.85rem;">{{ $log->driver->name ?? 'User Dihapus' }}</div>
                             <small class="text-muted">Kades: {{ $log->driver->nama_kepala_desa ?? '-' }}</small>
                         </td>
                         
                         <td>
-                            <div class="fw-bold text-dark small">{{ $log->nama_pasien ?? 'Sedang Berjalan' }}</div>
+                            <div class="fw-bold text-dark" style="font-size: 0.85rem;">{{ $log->nama_pasien ?? 'Sedang Berjalan' }}</div>
                             @if($log->jenis_pelayanan)
                                 <span class="badge bg-info bg-opacity-10 text-info border border-info-subtle mt-1" style="font-size: 0.65rem;">
                                     {{ $log->jenis_pelayanan }}
@@ -175,12 +178,12 @@
                         </td>
 
                         <td>
-                            <div class="small"><b>Dari:</b> {{ $log->lokasi_jemput ?? '-' }}</div>
-                            <div class="small text-primary"><b>Ke:</b> {{ $log->tujuan ?? '-' }}</div>
+                            <div style="font-size: 0.8rem;"><b>Dari:</b> <span class="text-muted">{{ $log->lokasi_jemput ?? '-' }}</span></div>
+                            <div style="font-size: 0.8rem;" class="text-primary"><b>Ke:</b> {{ $log->tujuan ?? '-' }}</div>
                         </td>
                         <td class="text-center">
                             @if($log->foto_ktp)
-                                <button type="button" class="btn btn-sm btn-light text-primary btn-preview-bukti rounded-pill px-3" 
+                                <button type="button" class="btn btn-sm btn-light text-primary btn-preview-bukti rounded-pill px-3 hover-scale fw-medium" 
                                         data-url="{{ $log->foto_ktp }}" 
                                         data-title="Bukti Pasien: {{ $log->nama_pasien }}">
                                     <i class="fa-regular fa-image me-1"></i> Lihat
@@ -189,9 +192,19 @@
                                 <span class="text-muted small">-</span>
                             @endif
                         </td>
+                        
+                        <td class="text-center">
+                            <form action="{{ route('admin.ambulan.destroy', $log->id) }}" method="POST" class="form-hapus-log d-inline-block" data-nama="{{ $log->driver->name ?? 'Driver' }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-danger rounded-circle d-flex align-items-center justify-content-center hover-scale mx-auto" style="width: 32px; height: 32px; border-width: 1.5px;" title="Hapus Log">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                     @empty
-                    <tr><td colspan="5" class="text-center py-5 text-muted small">Belum ada riwayat perjalanan terbaru.</td></tr>
+                    <tr><td colspan="6" class="text-center py-5 text-muted small">Belum ada riwayat perjalanan terbaru.</td></tr>
                     @endforelse
                 </tbody>
             </table>
@@ -203,28 +216,92 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow-lg rounded-4">
             <div class="modal-header border-0 pb-0">
-                <h6 class="modal-title fw-bold text-dark" id="buktiTitle">Bukti Perjalanan</h6>
+                <h6 class="modal-title fw-bold text-dark" id="buktiTitle" style="font-family: 'Poppins', sans-serif;">Bukti Perjalanan</h6>
                 <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body text-center p-4">
                 <img src="" id="buktiImage" class="img-fluid rounded-3 border shadow-sm" alt="Bukti" style="max-height: 70vh; object-fit: contain;">
             </div>
             <div class="modal-footer border-0 pt-0">
-                <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-secondary rounded-pill px-4 fw-medium" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>
 </div>
 
 <style>
+    /* UTILITIES KARTU & TABEL */
     .hover-card { transition: all 0.3s; cursor: pointer; border: 1px solid transparent; }
     .hover-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important; border-color: #0d6efd; }
     .hover-card-detail { transition: all 0.2s; border: 1px solid transparent; }
     .hover-card-detail:hover { transform: scale(1.02); border-color: #0d6efd; background-color: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05) !important; }
+    .hover-scale { transition: transform 0.2s; }
+    .hover-scale:hover { transform: scale(1.08); }
+
+    /* =========================================================
+       CUSTOM SWEETALERT DESAIN BARU (TIDAK KAKU)
+       ========================================================= */
+    .swal-custom-popup {
+        border-radius: 20px !important;
+        padding: 2rem !important;
+        border: 1px solid #f8fafc !important;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.08) !important;
+        font-family: 'Poppins', sans-serif !important;
+    }
+    .swal-custom-title {
+        font-size: 1.3rem !important;
+        font-weight: 700 !important;
+        color: #1e293b !important;
+        margin-top: 1rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    .icon-trash-custom {
+        background: #fee2e2;
+        color: #dc2626;
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin: 0 auto 0.5rem auto;
+    }
+    .swal-action-btn {
+        border-radius: 12px !important;
+        padding: 10px 28px !important;
+        font-weight: 600 !important;
+        font-size: 0.95rem !important;
+        letter-spacing: 0.3px !important;
+        transition: all 0.2s ease !important;
+    }
+    .swal-btn-danger {
+        background-color: #fee2e2 !important;
+        color: #dc2626 !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    .swal-btn-danger:hover {
+        background-color: #fca5a5 !important;
+        color: #b91c1c !important;
+    }
+    .swal-btn-cancel {
+        background-color: #f8fafc !important;
+        color: #64748b !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    .swal-btn-cancel:hover {
+        background-color: #e2e8f0 !important;
+        color: #334155 !important;
+    }
 </style>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Logika Pencarian Unit
         const searchInput = document.getElementById('searchUnit');
         if(searchInput) {
             searchInput.addEventListener('keyup', function() {
@@ -237,11 +314,11 @@
             });
         }
 
+        // Logika Preview Bukti
         const previewButtons = document.querySelectorAll('.btn-preview-bukti');
         const modalElement = document.getElementById('buktiPreviewModal');
         const previewImage = document.getElementById('buktiImage');
         const modalTitle = document.getElementById('buktiTitle');
-        
         const myModal = new bootstrap.Modal(modalElement);
 
         previewButtons.forEach(btn => {
@@ -249,13 +326,11 @@
                 const url = this.getAttribute('data-url');
                 const title = this.getAttribute('data-title');
                 
-                // FIX: Animasi Loading Sederhana
                 previewImage.src = 'https://i.gifer.com/ZKZg.gif'; 
                 
-                // Memuat gambar sebenarnya di latar belakang
                 const img = new Image();
                 img.onload = function() {
-                    previewImage.src = this.src; // Ganti animasi dengan gambar asli jika sudah siap
+                    previewImage.src = this.src; 
                 };
                 img.src = url;
 
@@ -263,6 +338,54 @@
                 myModal.show();
             });
         });
+
+        // LOGIKA KONFIRMASI HAPUS DENGAN DESAIN BARU
+        const formsHapus = document.querySelectorAll('.form-hapus-log');
+        formsHapus.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); 
+                
+                const nama = this.getAttribute('data-nama');
+                
+                Swal.fire({
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    buttonsStyling: false,
+                    html: `
+                        <div class="icon-trash-custom">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </div>
+                        <h4 class="swal-custom-title">Hapus Log Ambulan?</h4>
+                        <p class="text-muted small mt-2 mb-4" style="line-height: 1.5;">
+                            Riwayat perjalanan atas nama <b class="text-dark">${nama}</b> akan dihapus dari sistem.
+                        </p>
+                        <div class="bg-danger bg-opacity-10 text-danger rounded-3 py-2 px-3 small border border-danger border-opacity-25 text-start d-flex align-items-center">
+                            <i class="fa-solid fa-triangle-exclamation me-3 fs-5"></i>
+                            <span style="font-size: 0.8rem; font-weight: 500;">Tindakan ini tidak dapat dibatalkan.</span>
+                        </div>
+                    `,
+                    confirmButtonText: 'Ya, Hapus',
+                    cancelButtonText: 'Batal',
+                    reverseButtons: true,
+                    customClass: {
+                        popup: 'swal-custom-popup',
+                        confirmButton: 'swal-action-btn swal-btn-danger ms-2',
+                        cancelButton: 'swal-action-btn swal-btn-cancel'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({ 
+                            title: 'Menghapus...', 
+                            allowOutsideClick: false, 
+                            customClass: { popup: 'swal-custom-popup', title: 'swal-custom-title' },
+                            didOpen: () => { Swal.showLoading() } 
+                        });
+                        this.submit(); 
+                    }
+                });
+            });
+        });
+
     });
 </script>
 

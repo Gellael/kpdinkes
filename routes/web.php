@@ -61,6 +61,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/ambulan', [DashboardController::class, 'adminAmbulan'])->name('admin.ambulan');
     Route::get('/ambulan/detail/{id}', [DashboardController::class, 'adminAmbulanDetail'])->name('admin.ambulan.detail');
     
+    // FITUR BARU: Hapus Log Ambulan
+    Route::delete('/ambulan/delete/{id}', [DashboardController::class, 'destroyAmbulan'])->name('admin.ambulan.destroy');
+    
     // Export Data
     Route::get('/export/{type}', [DashboardController::class, 'exportData'])->name('admin.export');
 });
