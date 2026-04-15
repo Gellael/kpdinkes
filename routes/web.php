@@ -5,20 +5,15 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Auth;
 
-// ==========================================================
-// AUTENTIKASI & REDIRECT
-// ==========================================================
 
-// Halaman Utama Login
 Route::get('/', function () {
     return view('auth.login');
 })->name('login');
 
-// Proses Login & Logout
+
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.post');
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-// Rute Redirect Dashboard (Sesuai Role)
 Route::get('/dashboard', function () {
     if (!Auth::check()) return redirect('/');
     
@@ -31,9 +26,6 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 
-// ==========================================================
-// JALUR AKSES BERKAS RAHASIA (PRIVATE STORAGE)
-// ==========================================================
 Route::get('/berkas-rahasia', [DashboardController::class, 'tampilkanBerkasRahasia'])
     ->name('file.rahasia')
     ->middleware('auth');
@@ -44,27 +36,17 @@ Route::get('/berkas-rahasia', [DashboardController::class, 'tampilkanBerkasRahas
 // ==========================================================
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'adminIndex'])->name('admin.home');
-    
-    // Manajemen User
     Route::get('/users', [DashboardController::class, 'adminUsers'])->name('admin.users');
     Route::post('/users/create', [DashboardController::class, 'createUser'])->name('admin.create_user');
     Route::get('/users/edit/{id}', [DashboardController::class, 'editUser'])->name('admin.users.edit');
     Route::put('/users/update/{id}', [DashboardController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/users/delete/{id}', [DashboardController::class, 'deleteUser'])->name('admin.users.delete');
-    
-    // Manajemen BPJS
     Route::get('/bpjs', [DashboardController::class, 'adminBpjs'])->name('admin.bpjs');
     Route::put('/bpjs/approve/{id}', [DashboardController::class, 'approveBpjs'])->name('admin.bpjs.approve');
     Route::put('/bpjs/reject/{id}', [DashboardController::class, 'rejectBpjs'])->name('admin.bpjs.reject');
-    
-    // Manajemen Ambulan
     Route::get('/ambulan', [DashboardController::class, 'adminAmbulan'])->name('admin.ambulan');
     Route::get('/ambulan/detail/{id}', [DashboardController::class, 'adminAmbulanDetail'])->name('admin.ambulan.detail');
-    
-    // FITUR BARU: Hapus Log Ambulan
     Route::delete('/ambulan/delete/{id}', [DashboardController::class, 'destroyAmbulan'])->name('admin.ambulan.destroy');
-    
-    // Export Data
     Route::get('/export/{type}', [DashboardController::class, 'exportData'])->name('admin.export');
 });
 

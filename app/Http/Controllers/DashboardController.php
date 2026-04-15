@@ -8,18 +8,13 @@ use App\Models\AmbulanceLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-// MENGGUNAKAN CLASS ASLI (Penting untuk bypass error Facade)
 use Cloudinary\Cloudinary;
 
 class DashboardController extends Controller
 {
-    /**
-     * FUNGSI PEMBANTU (HELPER)
-     * Untuk melakukan upload secara manual tanpa bergantung pada config Laravel
-     */
+
     private function uploadKeCloudinary($file, $folder)
     {
-        // Masukkan kredensial langsung di sini
         $cloudinary = new Cloudinary([
             'cloud' => [
                 'cloud_name' => 'dubmmly9e',
@@ -58,7 +53,7 @@ class DashboardController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required',
             'role' => 'required',
-            'nopol' => 'nullable|string|max:20', // <-- Validasi NOPOL ditambahkan
+            'nopol' => 'nullable|string|max:20',
         ]);
 
         User::create([
@@ -70,7 +65,7 @@ class DashboardController extends Controller
             'kecamatan' => $request->kecamatan,   
             'kabupaten' => $request->kabupaten,   
             'no_hp' => $request->no_hp,
-            'nopol' => $request->nopol, // <-- Menyimpan NOPOL ke database
+            'nopol' => $request->nopol,
         ]);
 
         return back()->with('success', 'User berhasil ditambahkan');
@@ -87,7 +82,7 @@ class DashboardController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
             'role' => 'required',
-            'nopol' => 'nullable|string|max:20', // <-- Validasi NOPOL ditambahkan
+            'nopol' => 'nullable|string|max:20',
         ]);
         
         $data = [
@@ -98,7 +93,7 @@ class DashboardController extends Controller
             'kecamatan' => $request->kecamatan, 
             'kabupaten' => $request->kabupaten, 
             'no_hp' => $request->no_hp,
-            'nopol' => $request->nopol, // <-- Mengupdate NOPOL di database
+            'nopol' => $request->nopol,
         ];
 
         if($request->filled('password')) {
@@ -169,7 +164,6 @@ class DashboardController extends Controller
         $listKabupaten = User::where('role', 'ambulan')->select('kabupaten')->distinct()->orderBy('kabupaten')->get();
         $logQuery = AmbulanceLog::with('driver');
 
-        // FIX 1: Deklarasi variabel $armadaPerWilayah di awal agar tidak error 'undefined variable'
         $armadaPerWilayah = []; 
 
         if (!$isFiltering) {
@@ -213,13 +207,10 @@ class DashboardController extends Controller
     // ==========================================
     public function destroyAmbulan($id)
     {
-        // Cari data log berdasarkan ID (menggunakan Model AmbulanceLog)
         $log = AmbulanceLog::findOrFail($id);
         
-        // Hapus data log tersebut
         $log->delete();
 
-        // Kembalikan ke halaman sebelumnya dengan pesan sukses
         return redirect()->back()->with('success', 'Data log ambulan berhasil dihapus secara permanen!');
     }
 
@@ -336,7 +327,7 @@ class DashboardController extends Controller
             'status' => 'selesai'
         ]);
 
-        // FIX 2: Kembalikan menggunakan back() agar tidak mencari rute 'ambulan.index' yang tidak ada
+
         return back()->with('success', 'Tugas Selesai. Data tersimpan aman!');
     }
 
